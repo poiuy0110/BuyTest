@@ -1,5 +1,7 @@
 @extends('frontend.layouts.master')
 @section('title', 'Store')
+@section('nav_home', 'store')
+
 @section('content')
     <section class="page-section cta">
       <div class="container">

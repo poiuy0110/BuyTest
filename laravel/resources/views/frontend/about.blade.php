@@ -1,5 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title', 'About')
+@section('nav_about', 'active')
 
 @section('content')
     <section class="page-section about-heading">
