@@ -9,4 +9,16 @@ use App\Models\Store;
 class StoreController extends Controller
 {
     //
+
+    public function edit()
+    {
+        // ...
+    }
+     
+    public function update(Request $request)
+    {
+        // ...
+    }
+
+
 }

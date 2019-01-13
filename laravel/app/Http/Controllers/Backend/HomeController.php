@@ -9,4 +9,15 @@ use App\Models\Home;
 class HomeController extends Controller
 {
     //
+    public function edit()
+    {
+        // ...
+    }
+     
+    public function update(Request $request)
+    {
+        // ...
+    }
+
+
 }

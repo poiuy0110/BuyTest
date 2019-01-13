@@ -9,4 +9,15 @@ use App\Models\Website;
 class WebsiteController extends Controller
 {
     //
+    public function edit()
+    {
+        // ...
+    }
+     
+    public function update(Request $request)
+    {
+        // ...
+    }
+
+
 }
