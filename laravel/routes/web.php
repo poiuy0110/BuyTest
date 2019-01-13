@@ -31,6 +31,8 @@ Route::get('/admin/login', function (){
     return view('backend.login');
 });
 
+Route::post('/admin/login', 'Auth\LoginController@login')->name('login');
+
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function() {
  

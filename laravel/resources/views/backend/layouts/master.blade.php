@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
   <!-- Custom styles for backend -->
   <link href="{{ asset('css/backend.css') }}" rel="stylesheet">
-  <script src="{{ asset('tinymce/tinymce.min.js') }}"></script>
+  <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
   <script>
     tinymce.init({ selector:'textarea' });
   </script>
