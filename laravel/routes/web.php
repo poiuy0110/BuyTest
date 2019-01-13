@@ -11,21 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('frontend.index');
-})->name('home');
+Route::get('/', 'Frontend\HomeController@index')->name('home');
 
-Route::get('about', function () {
-    return view('frontend.about');
-})->name('about');
+Route::get('/about', 'Frontend\AboutController@index')->name('about');
 
-Route::get('products', function () {
-    return view('frontend.products');
-})->name('products');
+Route::get('/products', 'Frontend\ProductController@index')->name('products');
 
-Route::get('store', function () {
-    return view('frontend.store');
-})->name('store');
+Route::get('/store', 'Frontend\StoreController@index')->name('store');
 
 Route::get('/admin/login', function (){
     return view('backend.login');
