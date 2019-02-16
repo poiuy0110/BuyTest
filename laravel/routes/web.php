@@ -27,14 +27,14 @@ Route::get('/admin/register', function (){
     return view('backend.register');
 });
 
-Route::post('/admin/login', 'Auth\LoginController@login')->name('login');
+Route::post('/admin/login', 'Auth\LoginController@authenticate')->name('login');
 Route::post('/admin/register', 'Auth\RegisterController@register')->name('register');
 
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function() {
+Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function() {
  
     // 登出
-    Route::get('/admin/logout', 'Auth\LoginController@logout')->name('logout');
+    Route::get('logout', 'Auth\LoginController@customlogout')->name('logout');
  
     // Website的更新
     Route::get('/', 'Backend\WebsiteController@edit')->name('website.edit');

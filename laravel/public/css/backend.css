@@ -8,6 +8,12 @@ body {
     border-radius: 3px;
 }
 
+.login-section {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDFE2;
+    border-radius: 3px;
+}
+
 td form {
     display: inline;
 }

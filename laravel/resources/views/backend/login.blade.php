@@ -17,11 +17,14 @@
 </head>
 <body>
     <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col-sm-6">
-                <section class="page-section  my-5 p-5">
+        <div class="row align-items-md-center justify-content-md-center">
+           
+            <div class="col-sm-6" style="margin-top:50px">
+                    <h3 class="text-center">Buy Test 後臺管理系統</h3>
+                <section class="login-section  my-5 p-5">
                     <form method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
+                        
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label" for="username">帳號</label>
                             <div class="col-sm-10">
@@ -35,8 +38,8 @@
                             </div>
                         </div>
                         <div class="form-group row justify-content-md-center mt-5">
-                            <div class="col-sm-2">
-                                <button type="submit" class="btn btn-primary">登入</button>
+                            <div class="col-sm-10 text-center">
+                                <button type="submit" class="btn btn-info btn-block">登入</button>
                             </div>
                         </div>
                     </form>
