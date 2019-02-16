@@ -23,7 +23,12 @@ Route::get('/admin/login', function (){
     return view('backend.login');
 });
 
+Route::get('/admin/register', function (){
+    return view('backend.register');
+});
+
 Route::post('/admin/login', 'Auth\LoginController@login')->name('login');
+Route::post('/admin/register', 'Auth\RegisterController@register')->name('register');
 
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function() {

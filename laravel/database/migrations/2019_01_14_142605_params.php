@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAboutTable extends Migration
+class Params extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateAboutTable extends Migration
      */
     public function up()
     {
-        Schema::create('about', function (Blueprint $table) {
-            $table->increments('id');
-            $table->text('content');
-            $table->string('image');
+        Schema::create('params', function (Blueprint $table) {
+            $table->string('id', 100);
+            $table->string('value', 256)->nullable();
+            $table->string('desp', 512)->nullable();
+            $table->tinyInteger('is_edit');
+            $table->timestamps();
         });
     }
 
@@ -27,6 +29,6 @@ class CreateAboutTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('about');
+        Schema::dropIfExists('params');
     }
 }
