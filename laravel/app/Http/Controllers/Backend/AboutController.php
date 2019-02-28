@@ -17,8 +17,13 @@ class AboutController extends Controller
     $req = $this -> getSearchArr($request);
     
     $sql = $this -> getListWhere($req);
-    $arr = $sql->orderBy('id', 'desc')->paginate(1)->appends($req);
+    $arr = $sql->orderBy('id', 'desc')->paginate(10)->appends($req);
     $lists = $arr;
+
+
+    
+
+
 
     return view('backend.about.index', compact('lists', 'req'));
     }
@@ -36,14 +41,24 @@ class AboutController extends Controller
         }            
     }
     public function update(Request $request)
-    {
-        $about = About::find($request->input("id"));
-        $about->kind = $request->input("kind");
+    {   
+        if($request->input("id") != ""){
+            $about = About::find($request->input("id"));
+        } else {
+            $about = new About;
+        }
+        
+        $about->kind = "關於我們";
         $about->post_date = $request->input("post_date");
         $about->title = $request->input("title");
         $about->subject = $request->input("subject");
         $about->desp = $request->input("desp");
-        $about->vw = $request->input("vw");
+        if($request->input("vw") != ""){
+            $about->vw = $request->input("vw");
+        } else {
+            $about->vw = 0;
+        }
+        
         $about->save();
 
         return redirect()->route('admin.about.index');
@@ -55,6 +70,9 @@ class AboutController extends Controller
         
 
         $sql = DB::table('About');
+
+        $sql->where('kind', '=', '關於我們');
+
         if($request["title"] != ""){
             $sql->where('title', 'like', '%' .$request["title"] . '%');
         }
@@ -62,7 +80,13 @@ class AboutController extends Controller
             $sql->where('desp', 'like', '%' . $request["desp"] . '%');
         }
         if($request["status"] != ""){
-            $sql->where('status', '=',  $request["status"]);
+            if($request["status"] != "2"){
+                $sql->where('vw', '=',  $request["status"]);
+            } else {
+                $sql->where('vw', '=',  0);
+            }
+                
+            
         }
 
 
@@ -80,6 +104,13 @@ class AboutController extends Controller
 
         return $req;
 
+    }
+
+    public function destroy($id)
+    {
+        $about = About::find($id);
+        $about->delete();
+        return redirect()->route('admin.about.index');
     }
 
 

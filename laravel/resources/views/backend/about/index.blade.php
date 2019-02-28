@@ -1,7 +1,7 @@
 @extends('backend.layouts.master') 
 @section('title', '關於我們') 
 @section('content')
-<div class="container" style="width:100%">
+<div  style="width:100%">
         <div class="row" >
             <div class="col-lg-12">
                 <h4>關於我們</h4>
@@ -20,10 +20,10 @@
                                 
                                 <div class="form-group">
                                   <label>顯示</label>
-                                  <select name="status  ">
+                                  <select name="status">
                                         <option value="" >[全部]</option>
                                         <option value="1" {{$req['status']==1?'selected':''}}>顯示</option>
-                                        <option value="0 "{{$req['status']==0?'selected':''}}>未顯示</option>
+                                        <option value="2" {{$req['status']==2?'selected':''}}>未顯示</option>
 
                                   </select>
                                 </div>
@@ -37,49 +37,53 @@
                             </div>
 
                         </header>
-                    </div>      
-            <table class="table mt-5">
+                    </div>  
+                
+            <div class="body">
+            <table class="table table-bordered table-striped  table-hover " >
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">類別</th>
-                        <th scope="col">標題</th>
-                        <th scope="col">發布時間</th>
-                        <th scope="col">顯示</th>
-                        <th scope="col">&nbsp;</th>
-                        <th scope="col">&nbsp;</th>
-                        <th scope="col">&nbsp;</th>
+                        <th colspan="8">&nbsp;</th>
+                    </tr>
+                    <tr class="info">
+                        <th></th>
+                        <th>類別</th>
+                        <th>標題</th>
+                        <th>發布時間</th>
+                        <th>顯示</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($lists as $obj) 
+                    @foreach ($lists as $obj) 
                         <tr>
-                            <th class="align-middle" scope="row">{{ $obj->id }}</th>
+                            <th class="align-middle" scope="row">{{$loop->iteration}}</th>
                             <td class="align-middle">{{ $obj->kind }}</td>
                             <td class="align-middle">{{ $obj->title }}</td>
                             <td class="align-middle">{{ $obj->post_date }}</td>
-                            <td class="align-middle">{{ $obj->vw }}</td>
+                            <td class="align-middle">{{ $obj->vw_str }}</td>
                             <td class="align-middle">
                                 <a href="{{ route('admin.about.edit', $obj->id) }}" class="btn btn-primary">修改</a>
+                            </td>
+                            <td>
                                 <form method="POST" action="{{ route('admin.about.destroy', $obj->id) }}">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
                                     <button type="submit" class="btn btn-secondary">刪除</button>
                                 </form>
-                            </td>
+                            </td>    
                         </tr>
-                    @empty
-                        <tr>
-                            <td>No Product</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                     
                 </tbody>
             </table>
             <div class="text-center">
-                {!! $lists->render() !!}
-            </div>    
+                    {!! $lists->render() !!}
+            </div>  
         </div>
+             
+    </div>
        
         </div>
         

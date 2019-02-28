@@ -6,49 +6,45 @@
 
 <div class="container">
     <h3 for="content" class="text-center">關於我們</h3>
-    <section class="page-section my-5 p-5">
 
-        <form method="POST" action="{{ route('admin.about.update',  $about->id) }}" enctype="multipart/form-data">
-
+    <form method="POST" action="{{ route('admin.about.update',  $about->id) }}" enctype="multipart/form-data">
             {{ csrf_field() }}
 
             {{ method_field('PUT') }}
 
-        <input type="hidden" name="id" value="{{$about->id}}">
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-2">
-                        標題:
-                    </div> 
-                    <div class="col-md-10 ">
-                        <input name="title" value="{{$about->title}}" style="width:100%">    
-                    </div>  
-                </div>   
-                <div class="row">
-                        <div class="col-md-2">
-                            主題:
-                        </div> 
-                        <div class="col-md-10 ">
-                            <input name="subject" value="{{$about->subject}}" style="width:100%">    
-                        </div>  
-                </div>   
-                <div class="row">
-                        <div class="col-md-2">
-                            說明:
-                        </div> 
-                        <div class="col-md-10 ">
-                            <textarea name="desp" style="width:100%" rows="5" id="desp">{{$about->desp}}</textarea>    
-                        </div>  
-                </div>   
-                
-            </div>
-
-        
-           
+            <input type="hidden" name="id" value="{{$about->id}}">
             
-        </form>
+        <table class="table table-stripped table-bordered">
+            
+            <tr>
+                <th class="info">發布時間:</th>
+                <td><input name="post_date" value="{{$about->post_date}}" class="jdate"></td>
+            </tr>
+            <tr>
+                <th class="info">標題:</th>
+                <td><input name="title" value="{{$about->title}}" style="width:100%"></td>
+            </tr>
+            <tr>
+                <th class="info">主題:</th>
+                <td><input name="subject" value="{{$about->subject}}" style="width:100%"></td>
+            </tr>
+            <tr>
+                <th class="info">說明:</th>
+                <td><textarea name="desp" style="width:100%" rows="5" id="desp">{{$about->desp}}</textarea> </td>
+            </tr>
+            <tr>
+                <th class="info">顯示:</th>
+                <td><input type="checkbox" name="vw" value="1" {{$about->vw==1?'checked':''}}></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="text-center">
+                    <a href="/admin/about" class="btn btn-sm btn-light">取消</a>
+                    <input type="submit" value="送出" class="btn btn-sm btn-primary">
+                </td>
+            </tr>
+        </table>
+    </form>    
 
-    </section>
 
 </div>
 
