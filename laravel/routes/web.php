@@ -30,6 +30,9 @@ Route::get('/admin/register', function (){
 Route::post('/admin/login', 'Auth\LoginController@authenticate')->name('login');
 Route::post('/admin/register', 'Auth\RegisterController@register')->name('register');
 
+Route::post('/admin/ckeditorFileUpload', 'Controller@uploadImageContent')->name('uploadImageContent');
+
+
 
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function() {
  
@@ -44,9 +47,10 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::get('home', 'Backend\HomeController@edit')->name('home.edit');
     Route::post('home', 'Backend\HomeController@update')->name('home.update');
  
-    // About的更新
-    Route::get('about', 'Backend\AboutController@edit')->name('about.edit');
-    Route::post('about', 'Backend\AboutController@update')->name('about.update');
+    /*// About的增刪改查還有index頁面
+    Route::resource('about', 'Backend\AboutController');*/
+    Route::resource('about', 'Backend\AboutController', ['except'=> ['show']]);
+   
  
     // Product的增刪改查還有index頁面
     Route::resource('product', 'Backend\ProductController', ['except'=> ['show']]);
@@ -54,6 +58,9 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     // Store的更新
     Route::get('store', 'Backend\StoreController@edit')->name('store.edit');
     Route::post('store', 'Backend\StoreController@update')->name('store.update');
+
+    
+
 });
 
 

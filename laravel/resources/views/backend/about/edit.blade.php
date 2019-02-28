@@ -5,31 +5,46 @@
 @section('content')
 
 <div class="container">
-
+    <h3 for="content" class="text-center">關於我們</h3>
     <section class="page-section my-5 p-5">
 
-        <form method="POST" action="{{ route('admin.about.update') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.about.update',  $about->id) }}" enctype="multipart/form-data">
 
             {{ csrf_field() }}
 
+            {{ method_field('PUT') }}
+
+        <input type="hidden" name="id" value="{{$about->id}}">
             <div class="form-group">
-                <label for="content">關於我</label>
-                <textarea class="form-control" type="text" name="content" rows="5">@isset($about) {{$about->content}} @endisset</textarea>
+                <div class="row">
+                    <div class="col-md-2">
+                        標題:
+                    </div> 
+                    <div class="col-md-10 ">
+                        <input name="title" value="{{$about->title}}" style="width:100%">    
+                    </div>  
+                </div>   
+                <div class="row">
+                        <div class="col-md-2">
+                            主題:
+                        </div> 
+                        <div class="col-md-10 ">
+                            <input name="subject" value="{{$about->subject}}" style="width:100%">    
+                        </div>  
+                </div>   
+                <div class="row">
+                        <div class="col-md-2">
+                            說明:
+                        </div> 
+                        <div class="col-md-10 ">
+                            <textarea name="desp" style="width:100%" rows="5" id="desp">{{$about->desp}}</textarea>    
+                        </div>  
+                </div>   
+                
             </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="image">圖片</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="file" name="image">
-                </div>
-                <img src="@isset($about) {{ asset('uploads/about/' . $about->image) }} @endisset" class="mt-3" style="height: 100%; width: 100%; object-fit: contain" onerror="this.src='{{ asset('uploads/about/default.jpg') }}'">
-            </div>
-
-            <div class="form-group row justify-content-end">
-                <div class="col-sm-1">
-                    <button type="submit" class="btn btn-primary">更新</button>
-                </div>
-            </div>
+        
+           
             
         </form>
 
@@ -37,5 +52,33 @@
 
 </div>
 
+<script>
+       
+			CKEDITOR.replace( 'desp',
+            {
+                extraPlugins: 'autogrow,imgbrowse,filebrowser',
+               toolbar:
+            [
+             { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
+			 { name: 'styles', items : [ 'Font','FontSize' ] },
+			 { name: 'colors', items : [ 'TextColor','BGColor' ] },
+			 { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+			 '/',
+			 { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+			 { name: 'insert', items : [ 'Image','Table','HorizontalRule','SpecialChar'] },
+           
 
+            ],
+   
+                height: '600px',
+                filebrowserUploadUrl:'/admin/ckeditorFileUpload',
+                filebrowserImageUploadUrl:'/admin/ckeditorFileUpload',
+                removeDialogTabs: 'image:advanced;link:advanced',
+                language:'zh',
+                
+                
+                
+               
+            });
+</script>
 @endsection

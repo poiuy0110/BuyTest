@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="form-group row justify-content-md-center mt-5">
-                            <div class="col-sm-10 text-center">
+                            <div class="col-sm-12 text-center">
                                 <button type="submit" class="btn btn-info btn-block">登入</button>
                             </div>
                         </div>

@@ -5,27 +5,98 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\About;
+use DB;
 
 class AboutController extends Controller
 {
     //
-    public function edit()
+
+    public function index(Request $request)
     {
-        $about = About::find(1);
-        if (empty($about))
-            return view('backend.about.edit');
-        else
-            return view('backend.about.edit', compact('about'));
+        
+    $req = $this -> getSearchArr($request);
+    
+    $sql = $this -> getListWhere($req);
+    $arr = $sql->orderBy('id', 'desc')->paginate(1)->appends($req);
+    $lists = $arr;
+
+    return view('backend.about.index', compact('lists', 'req'));
     }
-     
+
+
+
+
+    public function edit($id="")
+    {   
+        if($id != ""){
+            $about = About::find($id);
+            return view('backend.about.edit', compact('about'));
+        } else {
+            return view('backend.about.edit');
+        }            
+    }
     public function update(Request $request)
+    {
+        $about = About::find($request->input("id"));
+        $about->kind = $request->input("kind");
+        $about->post_date = $request->input("post_date");
+        $about->title = $request->input("title");
+        $about->subject = $request->input("subject");
+        $about->desp = $request->input("desp");
+        $about->vw = $request->input("vw");
+        $about->save();
+
+        return redirect()->route('admin.about.index');
+
+    }
+
+    function getListWhere(array $request){
+
+        
+
+        $sql = DB::table('About');
+        if($request["title"] != ""){
+            $sql->where('title', 'like', '%' .$request["title"] . '%');
+        }
+        if($request["desp"] != ""){
+            $sql->where('desp', 'like', '%' . $request["desp"] . '%');
+        }
+        if($request["status"] != ""){
+            $sql->where('status', '=',  $request["status"]);
+        }
+
+
+        return $sql;
+    }
+
+
+    function getSearchArr($request){
+
+
+        $req = array();
+        $req["title"] = $request->input("title");
+        $req["desp"] = $request->input("desp");
+        $req["status"] = $request->input("status");
+
+        return $req;
+
+    }
+
+
+
+
+
+
+
+     
+    /*public function update(Request $request)
     {
         // 如果路徑不存在，就自動建立
     if (!file_exists('uploads/about')) {
         mkdir('uploads/about', 0755, true);
     }
     // 因為沒有特別建立create頁面，所以特別判斷資料庫中是否有資料可以更新
-    $about = About::find(1);
+    $about = About::find($request->input("id"));
     if (empty($about)) {
         // 沒有資料 -> 新增
         $about = new About;
@@ -44,8 +115,8 @@ class AboutController extends Controller
     if ($fileName)
         $about->image = $fileName;
     $about->save();
-    return redirect()->route('admin.about.edit');
-    }
+    return redirect()->route('admin.about.index');
+    }*/
 
 
 

@@ -15,9 +15,7 @@
   <!-- Custom styles for backend -->
   <link href="{{ asset('css/backend.css') }}" rel="stylesheet">
   <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-  <script>
-    tinymce.init({ selector:'textarea' });
-  </script>
+  <script src="{{ asset('unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
 </head>
 <body>
   @include('backend.layouts.navbar') @yield('content')

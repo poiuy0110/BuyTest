@@ -16,7 +16,7 @@ class Users extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user_id', 20);
-            $table->string('user_pass', 50);
+            $table->string('password', 255);
             $table->string('title', 50)->nullable();
             $table->string('level', 4)->nullable();
             $table->string('email', 128)->nullable();
