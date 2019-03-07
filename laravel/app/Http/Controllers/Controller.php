@@ -38,5 +38,18 @@ class Controller extends BaseController
     }
 
 
+    public function transToStr($val){
+
+        if($val == "1"){
+            return "<span class='badge badge-success'>Y</span>";
+        } else {
+            return "<span class='badge badge-danger'>N</span>";
+        }
+    }
+
+
+
+
+
 
 }

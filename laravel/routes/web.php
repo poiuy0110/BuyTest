@@ -49,7 +49,19 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
  
     /*// About的增刪改查還有index頁面
     Route::resource('about', 'Backend\AboutController');*/
-    Route::resource('about', 'Backend\AboutController', ['except'=> ['show']]);
+    //Route::resource('about', 'Backend\AboutController');
+    Route::resource('about', 'Backend\AboutController');
+
+
+    Route::resource('news', 'Backend\NewsController');
+
+    Route::resource('member', 'Backend\MemberController');
+    Route::get('member/{id}/chgPass', 'Backend\MemberController@chgPass')->name('member.chgPass');
+    Route::post('member/chgPassSave', 'Backend\MemberController@chgPassSave')->name('member.chgPassSave');
+
+    Route::resource('category', 'Backend\CategoryController');
+
+    
    
  
     // Product的增刪改查還有index頁面

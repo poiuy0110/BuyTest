@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\About;
 use DB;
 
-class AboutController extends Controller
+class NewsController extends Controller
 {
     //
 
@@ -24,44 +24,47 @@ class AboutController extends Controller
         $row->vw_str = $this -> transToStr($row->vw);
     }*/
 
-    return view('backend.about.index', compact('lists', 'req'));
+    return view('backend.news.index', compact('lists', 'req'));
     }
 
 
-    
+    public function create()
+    {   
+        return view('backend.news.edit');     
+    }
 
 
     public function edit($id="")
     {   
         if($id != ""){
-            $about = About::find($id);
-            return view('backend.about.edit', compact('about'));
+            $news = About::find($id);
+            return view('backend.news.edit', compact('news'));
         } else {
-            return view('backend.about.edit');
+            return view('backend.news.edit');
         }            
     }
     public function update(Request $request)
     {   
         if($request->input("id") != ""){
-            $about = About::find($request->input("id"));
+            $news = About::find($request->input("id"));
         } else {
-            $about = new About;
+            $news = new About;
         }
         
-        $about->kind = "關於我們";
-        $about->post_date = $request->input("post_date");
-        $about->title = $request->input("title");
-        $about->subject = $request->input("subject");
-        $about->desp = $request->input("desp");
+        $news->kind = "主題活動";
+        $news->post_date = $request->input("post_date");
+        $news->title = $request->input("title");
+        $news->subject = $request->input("subject");
+        $news->desp = $request->input("desp");
         if($request->input("vw") != ""){
-            $about->vw = $request->input("vw");
+            $news->vw = $request->input("vw");
         } else {
-            $about->vw = 0;
+            $news->vw = 0;
         }
         
-        $about->save();
+        $news->save();
 
-        return redirect()->route('admin.about.index');
+        return redirect()->route('admin.news.index');
 
     }
 
@@ -71,7 +74,7 @@ class AboutController extends Controller
 
         $sql = DB::table('About');
 
-        $sql->where('kind', '=', '關於我們');
+        $sql->where('kind', '=', '主題活動');
 
         if($request["title"] != ""){
             $sql->where('title', 'like', '%' .$request["title"] . '%');
@@ -108,25 +111,18 @@ class AboutController extends Controller
 
     public function destroy($id)
     {
-        $about = About::find($id);
-        $about->delete();
-        return redirect()->route('admin.about.index');
+        $news = About::find($id);
+        $news->delete();
+        return redirect()->route('admin.news.index');
     }
+
 
     public function show($id)
     {   
-        $about = About::find($id);
-        return view('backend.about.show', compact('about'));
+        $news = About::find($id);
+        return view('backend.news.show', compact('news'));
            
     }
-
-
-    public function create()
-    {   
-        return view('backend.about.edit');
-    }
-
-
 
     public function store(Request $request)
     {   
@@ -134,7 +130,7 @@ class AboutController extends Controller
         $about = new About;
  
         
-        $about->kind = "關於我們";
+        $about->kind = "主題活動";
         $about->post_date = $request->input("post_date");
         $about->title = $request->input("title");
         $about->subject = $request->input("subject");
@@ -147,7 +143,7 @@ class AboutController extends Controller
         
         $about->save();
 
-        return redirect()->route('admin.about.index');
+        return redirect()->route('admin.news.index');
 
     }
 
@@ -156,30 +152,30 @@ class AboutController extends Controller
     /*public function update(Request $request)
     {
         // 如果路徑不存在，就自動建立
-    if (!file_exists('uploads/about')) {
-        mkdir('uploads/about', 0755, true);
+    if (!file_exists('uploads/news')) {
+        mkdir('uploads/news', 0755, true);
     }
     // 因為沒有特別建立create頁面，所以特別判斷資料庫中是否有資料可以更新
-    $about = About::find($request->input("id"));
-    if (empty($about)) {
+    $news = About::find($request->input("id"));
+    if (empty($news)) {
         // 沒有資料 -> 新增
-        $about = new About;
+        $news = new About;
         $fileName = 'default.jpg';
     } 
     if ($request->hasFile('image')) {
         // 先刪除原本的圖片
-        if ($about->image != 'default.jpg')
-            @unlink('uploads/about/' . $about->image);
+        if ($news->image != 'default.jpg')
+            @unlink('uploads/news/' . $news->image);
         $file = $request->file('image');
-        $path = public_path() . '\uploads\about\\';
+        $path = public_path() . '\uploads\news\\';
         $fileName = time() . '.' . $file->getClientOriginalExtension();
         $file->move($path, $fileName);
     }
-    $about->content = $request->input('content');
+    $news->content = $request->input('content');
     if ($fileName)
-        $about->image = $fileName;
-    $about->save();
-    return redirect()->route('admin.about.index');
+        $news->image = $fileName;
+    $news->save();
+    return redirect()->route('admin.news.index');
     }*/
 
 

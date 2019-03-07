@@ -11,7 +11,7 @@
                  </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="{{ route('admin.about.index') }}">關於我們</a>
-                    <a class="dropdown-item" href="{{ route('admin.home.edit') }}">主題活動</a>
+                    <a class="dropdown-item" href="{{ route('admin.news.index') }}">主題活動</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -19,7 +19,7 @@
                     會員管理    
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ route('admin.home.edit') }}">會員管理</a>
+                    <a class="dropdown-item" href="{{ route('admin.member.index') }}">會員管理</a>
                     <a class="dropdown-item" href="{{ route('admin.home.edit') }}">電子報訂閱</a>
                 </div>
             </li>

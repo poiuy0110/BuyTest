@@ -1,13 +1,13 @@
 @extends('backend.layouts.master') 
-@section('title', '關於我們') 
+@section('title', '主題活動') 
 @section('content')
 <div  style="width:100%">
         <div class="row" >
             <div class="col-lg-12">
-                <h4>關於我們</h4>
+                <h4>主題活動</h4>
                 <div class="well well-sm">
                         <header>
-                            <form class="form-inline" action="{{ route('admin.about.index') }}" method="get">
+                            <form class="form-inline" action="{{ route('admin.news.index') }}" method="get">
                                 <div class="form-group">
                                     <label>標題: </label>
                                     <input type="text" size="10" name="title" value="{{$req['title']}}" placeholder="">
@@ -43,14 +43,14 @@
             <table class="table table-bordered table-striped  table-hover " >
                 <thead>
                     <tr>
-                        <th colspan="8"><a href='{{ route('admin.about.create') }}' class="btn btn-warning btn-sm">新增</a></th>
+                        <th colspan="8"><a href='{{ route('admin.news.create') }}' class="btn btn-warning btn-sm">新增</a></th>
                     </tr>
                     <tr class="info">
                         <th width="60"></th>
                         <th>標題</th>
                         <th width="150">發布時間</th>
                         <th width="60">顯示</th>
-                        <th width="200">&nbsp;</th>  
+                        <th width="200">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,13 +67,13 @@
                                 @endif
                             </td>
                             <td class="align-middle">
-                                <a href="{{ route('admin.about.edit', $obj->id) }}" class="btn btn-primary btn-sm">修改</a>
-                                <form method="POST" action="{{ route('admin.about.destroy', $obj->id) }}">
+                                <a href="{{ route('admin.news.edit', $obj->id) }}" class="btn btn-primary btn-sm">修改</a>
+                                <a href="{{ route('admin.news.show', $obj->id) }}" class="btn btn-success btn-sm">內容</a>
+                                <form method="POST" action="{{ route('admin.news.destroy', $obj->id) }}">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
-                                    <button type="submit" class="btn btn-secondary btn-sm">刪除</button>
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('您確定要刪除嗎??');">刪除</button>
                                 </form>
-                                <a href="{{ route('admin.about.show', $obj->id) }}" class="btn btn-success btn-sm"  onclick="return confirm('您確定要刪除嗎??');">內容</a>
                             </td>  
                         </tr>
                     @endforeach
