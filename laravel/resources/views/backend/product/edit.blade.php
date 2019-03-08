@@ -1,57 +1,77 @@
 @extends('backend.layouts.master') 
 
-@section('title', 'Product Edit') 
+@section('title', '商品管理') 
 
 @section('content')
 
 <div class="container">
-    
-    <section class="page-section my-5 p-5">
+    <h3 for="content" class="text-center">商品管理</h3>
 
-        <form method="POST" action="{{ route('admin.product.update',  $product->id) }}" enctype="multipart/form-data">
+    @isset($product)
+        <form method="POST" action="{{ route('admin.product.update', $product->id) }}" enctype="multipart/form-data">
+    @else
+        <form method="POST" action="{{ route('admin.product.store') }}" enctype="multipart/form-data">
+    @endisset        
 
-            {{ csrf_field() }}
-
-            {{ method_field('PUT') }}
-
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="title">商品名稱</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="text" name="title" value="{{$product->title}}">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="subtitle">商品副標題</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="text" name="subtitle" value="{{$product->subtitle}}">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="description">商品描述</label>
-                <textarea class="form-control" type="text" name="description" rows="5">{{$product->description}}</textarea>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="image">圖片</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="file" name="image">
-                </div>
-                <img src="{{ asset('uploads/product/' . $product->image) }}" class="mt-3" style="height: 100%; width: 100%; object-fit: contain" onerror="this.src='{{ asset('uploads/product/default.jpg') }}'">
-            </div>
-
-            <div class="form-group row justify-content-end">
-                <div class="col-sm-1">
-                    <button type="submit" class="btn btn-primary">更新</button>
-                </div>
-            </div>
+            @isset($product)
+                {{ method_field("PUT") }}
+                <input type="hidden" name="id" value="{{$product->id}}">
+            @endisset
             
-        </form>
+            {{ csrf_field() }}    
 
-    </section>
-    
+           
+            
+        <table class="table table-stripped table-bordered">
+
+
+            <tr>
+                <th class="info">類別:</th>
+                <td>
+                    <select name="cat_id">
+                            <option value="">[無]</option>
+                        @foreach ($cat_lists as $obj)
+                            <option value="{{$obj->id}}" @isset($product){{$product->cat_id==$obj->id?'selected':''}}@endisset>{{$obj->name}}</option>
+                        @endforeach
+                    </select>   
+                </td>
+            </tr>
+            
+            <tr>
+                <th class="info">名稱:</th>
+                <td><input name="name" value="@isset($product){{$product->name}}@endisset" ></td>
+            </tr>
+            <tr>
+                <th class="info">說明:</th>
+                <td><textarea name="desp" style="width:100%" rows="5" class="ckeditor_set">@isset($product){{$product->desp}}@endisset</textarea></td>
+            </tr>
+            <tr>
+                <th class="info">圖片:</th>
+                <td><input name="photo" type="file">@isset($product)<img src="{{asset('uploads/product/'. $product->photo)}}">@endisset</td>
+            </tr>
+            <tr>
+                <th class="info">顯示:</th>
+                <td><input type="checkbox" name="vw" value="1"  @isset($product){{$product->vw==1?'checked':''}}@endisset ></td>
+            </tr>
+            <tr>
+                <th class="info">熱門:</th>
+                <td><input type="checkbox" name="hot" value="1"  @isset($product){{$product->hot==1?'checked':''}}@endisset ></td>
+            </tr>
+            <tr>
+                <th class="info">最新商品:</th>
+                <td><input type="checkbox" name="new" value="1"  @isset($product){{$product->new==1?'checked':''}}@endisset ></td>
+            </tr>
+            
+            
+            <tr>
+                <td colspan="2" class="text-center">
+                    <a href="/admin/product" class="btn btn-sm btn-light">取消</a>
+                    <input type="submit" value="送出" class="btn btn-sm btn-primary">
+                </td>
+            </tr>
+        </table>
+    </form>    
+
+
 </div>
-
-
 @endsection

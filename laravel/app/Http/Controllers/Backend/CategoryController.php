@@ -43,8 +43,32 @@ class CategoryController extends Controller
         }            
     }
     public function update(Request $request, $id)
-    {   
-        Category::whereId($id)->update($request->except(['_method','_token']));
+    {      
+        $fileName = "";
+
+        if (!file_exists('uploads/category')) {
+            mkdir('uploads/category', 0755, true);
+        }
+        $category = Category::find($request->input("id"));
+
+        if ($request->hasFile('photo')) {
+            @unlink('uploads/category/' . $category->photo);
+            $file = $request->file('photo');
+            $path = public_path() . '\uploads\category\\';
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move($path, $fileName);
+        }
+
+        $category->name = $request->input("name");
+        $category->desp = $request->input("desp");
+        $category->vw = $request->input("vw");
+        $category->hot = $request->input("hot");
+        $category->seq = $request->input("seq");
+
+        if ($fileName)
+            $category->photo = $fileName;
+        $category->save();
+
 
         return redirect()->route('admin.category.index');
     }
@@ -55,19 +79,25 @@ class CategoryController extends Controller
 
         $sql = DB::table('Category');
 
-        //$sql->where('kind', '=', '主題活動');
-
         if($request["name"] != ""){
             $sql->where('name', 'like', '%' .$request["name"] . '%');
         }
-        if($request["login_id"] != ""){
-            $sql->where('login_id', 'like', '%' . $request["login_id"] . '%');
-        }
-        if($request["active"] != ""){
-            if($request["active"] != "2"){
-                $sql->where('active', '=',  $request["active"]);
+
+        if($request["vw"] != ""){
+            if($request["vw"] != "2"){
+                $sql->where('vw', '=',  $request["vw"]);
             } else {
-                $sql->where('active', '=',  0);
+                $sql->where('vw', '=',  0)->orWhere('vw', '=', "")->orWhereNull('vw');
+            }
+                
+            
+        }
+
+        if($request["hot"] != ""){
+            if($request["hot"] != "2"){
+                $sql->where('hot', '=',  $request["hot"]);
+            } else {
+                $sql->where('hot', '=',  0)->orWhere('hot','=', "")->orWhereNull('hot');
             }
                 
             
@@ -83,8 +113,8 @@ class CategoryController extends Controller
 
         $req = array();
         $req["name"] = $request->input("name");
-        $req["login_id"] = $request->input("login_id");
-        $req["active"] = $request->input("active");
+        $req["vw"] = $request->input("vw");
+        $req["hot"] = $request->input("hot");
 
         return $req;
 
@@ -107,56 +137,35 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {   
-        $data = $request->except(['_method','_token']);
-        Category::insert($data);
 
-        return redirect()->route('admin.category.index');
+        $fileName = "";
 
-    }
-
-    public function chgPass($id)
-    {   
-        
-        //echo $id;
-        $category = Category::find($id);
-        return view('backend.category.chgPass', compact('category'));
-           
-    }
-
-    public function chgPassSave(Request $request)
-    {   
-
-        $category = Category::find($request->input('id'));
-
-        $old_pass = $request->input('old_pass');
-        $password = $request->input('password');
-        $data = $request->except(['_method','_token']);
-
-        $rules = [
-            'old_pass'=>'required|between:6,20',
-            'password'=>'required|between:6,20|confirmed',
-        ];
-        $messages = [
-            'required' => '密碼不能為空',
-            'between' => '密碼必須是6~20位之間',
-            'confirmed' => '新密碼和確認密碼不匹配'
-        ];
-        $validator = Validator::make($data, $rules, $messages);
-        $validator->after(function($validator) use ($old_pass, $category) {
-            if (!\Hash::check($old_pass, $category->password)) {
-                $validator->errors()->add('old_pass', '原密碼錯誤');
-            }
-        });
-        if ($validator->fails()) {
-            return back()->withErrors($validator); //返回一次性錯誤
+        if (!file_exists('uploads/product')) {
+            mkdir('uploads/product', 0755, true);
         }
+        
+        $category = new Category;
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $path = public_path() . '\uploads\category\\';
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move($path, $fileName);
+        }
+        $category->name = $request->input("name");
+        $category->desp = $request->input("desp");
+        $category->vw = $request->input("vw");
+        $category->hot = $request->input("hot");
+        $category->seq = $request->input("seq");
 
-        $category->password = bcrypt($password);
+        if ($fileName)
+            $category->photo = $fileName;
+
         $category->save();
 
-        return redirect()->route('admin.category.index');
-
+        return redirect()->route('admin.category.show', $category->id);
     }
+
+
 
 
 

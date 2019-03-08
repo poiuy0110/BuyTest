@@ -65,7 +65,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
    
  
     // Product的增刪改查還有index頁面
-    Route::resource('product', 'Backend\ProductController', ['except'=> ['show']]);
+    Route::resource('product', 'Backend\ProductController');
  
     // Store的更新
     Route::get('store', 'Backend\StoreController@edit')->name('store.edit');

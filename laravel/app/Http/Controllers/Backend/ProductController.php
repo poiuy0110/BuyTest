@@ -5,115 +5,209 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\MessageBag;
+use DB;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+
+    public function index(Request $request)
     {
-        $products = Product::orderBy('id')->get();
-        return view('backend.product.index', compact('products'));
+        
+    $req = $this -> getSearchArr($request);
+    
+    $sql = $this -> getListWhere($req);
+    $arr = $sql->orderBy('id', 'desc')->paginate(10)->appends($req);
+    $lists = $arr;
+
+
+    return view('backend.product.index', compact('lists', 'req'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
-    {
-        return view('backend.product.create');
+    {   
+
+        $sql = DB::table('Category');
+        $sql->where('vw', '=', "1");
+        $sql->orderBy('seq', 'desc');
+        $cat_lists = $sql->get();
+        
+        return view('backend.product.edit', compact('cat_lists'));     
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function edit($id="")
+    {   
+        if($id != ""){
+            $product = Product::find($id);
+            return view('backend.product.edit', compact('product'));
+        } else {
+            return view('backend.product.edit');
+        }            
+    }
+    public function update(Request $request, $id)
+    {      
+        $fileName = "";
+
+        if (!file_exists('uploads/product')) {
+            mkdir('uploads/product', 0755, true);
+        }
+        $product = Product::find($request->input("id"));
+
+        if ($request->hasFile('photo')) {
+            @unlink('uploads/product/' . $product->photo);
+            $file = $request->file('photo');
+            $path = public_path() . '\uploads\product\\';
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move($path, $fileName);
+        }
+
+        $product->name = $request->input("name");
+        $product->desp = $request->input("desp");
+        $product->vw = $request->input("vw");
+        $product->hot = $request->input("hot");
+        $product->seq = $request->input("seq");
+
+        if ($fileName)
+            $product->photo = $fileName;
+        $product->save();
+
+
+        return redirect()->route('admin.product.index');
+    }
+
+    function getListWhere(array $request){
+
+        
+
+        $sql = DB::table('Product');
+
+        if($request["name"] != ""){
+            $sql->where('name', 'like', '%' .$request["name"] . '%');
+        }
+
+        if($request["vw"] != ""){
+            if($request["vw"] != "2"){
+                $sql->where('vw', '=',  $request["vw"]);
+            } else {
+                $sql->where('vw', '=',  0)->orWhere('vw', '=', "")->orWhereNull('vw');
+            }
+                
+            
+        }
+
+        if($request["hot"] != ""){
+            if($request["hot"] != "2"){
+                $sql->where('hot', '=',  $request["hot"]);
+            } else {
+                $sql->where('hot', '=',  0)->orWhere('hot','=', "")->orWhereNull('hot');
+            }
+                
+            
+        }
+
+
+        return $sql;
+    }
+
+
+    function getSearchArr($request){
+
+
+        $req = array();
+        $req["name"] = $request->input("name");
+        $req["vw"] = $request->input("vw");
+        $req["hot"] = $request->input("hot");
+
+        return $req;
+
+    }
+
+    public function destroy($id)
     {
+        $product = Product::find($id);
+        $product->delete();
+        return redirect()->route('admin.product.index');
+    }
+
+
+    public function show($id)
+    {   
+        $product = Product::find($id);
+        return view('backend.product.show', compact('product'));
+           
+    }
+
+    public function store(Request $request)
+    {   
+
+        $fileName = "";
+
         if (!file_exists('uploads/product')) {
             mkdir('uploads/product', 0755, true);
         }
         
         $product = new Product;
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
             $path = public_path() . '\uploads\product\\';
             $fileName = time() . '.' . $file->getClientOriginalExtension();
             $file->move($path, $fileName);
         }
-        else {
-            $fileName = 'default.jpg';
-        }
-        $product->title = $request->input('title');
-        $product->subtitle = $request->input('subtitle');
-        $product->image = $fileName;
-        $product->description = $request->input('description');
+        $product->name = $request->input("name");
+        $product->desp = $request->input("desp");
+        $product->vw = $request->input("vw");
+        $product->hot = $request->input("hot");
+        $product->seq = $request->input("seq");
+
+        if ($fileName)
+            $product->photo = $fileName;
+
         $product->save();
-        return redirect()->route('admin.product.index');
+
+        return redirect()->route('admin.product.show', $product->id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $product = Product::find($id);
-        return view('backend.product.edit', compact('product'));
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        if (!file_exists('uploads/product')) {
-            mkdir('uploads/product', 0755, true);
-        }
-        
-        $product = Product::find($id);
-        if ($request->hasFile('image')) {
-            // 先刪除原本的圖片
-            if ($product->image != 'default.jpg')
-                @unlink('uploads/product/' . $product->image);
-            $file = $request->file('image');
-            $path = public_path() . '\uploads\product\\';
-            $fileName = time() . '.' . $file->getClientOriginalExtension();
-            $file->move($path, $fileName);
-            $product->image = $fileName;
-        }
-        $product->title = $request->input('title');
-        $product->subtitle = $request->input('subtitle');
-        $product->description = $request->input('description');
-        $product->save();
-        return redirect()->route('admin.product.index');
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+
+
+
+
+     
+    /*public function update(Request $request)
     {
-        $product = Product::find($id);
+        // 如果路徑不存在，就自動建立
+    if (!file_exists('uploads/product')) {
+        mkdir('uploads/product', 0755, true);
+    }
+    // 因為沒有特別建立create頁面，所以特別判斷資料庫中是否有資料可以更新
+    $product = Product::find($request->input("id"));
+    if (empty($product)) {
+        // 沒有資料 -> 新增
+        $product = new Product;
+        $fileName = 'default.jpg';
+    } 
+    if ($request->hasFile('image')) {
+        // 先刪除原本的圖片
         if ($product->image != 'default.jpg')
             @unlink('uploads/product/' . $product->image);
-        $product->delete();
-        return redirect()->route('admin.product.index');
+        $file = $request->file('image');
+        $path = public_path() . '\uploads\product\\';
+        $fileName = time() . '.' . $file->getClientOriginalExtension();
+        $file->move($path, $fileName);
     }
+    $product->content = $request->input('content');
+    if ($fileName)
+        $product->image = $fileName;
+    $product->save();
+    return redirect()->route('admin.product.index');
+    }*/
+
+
+
 }
