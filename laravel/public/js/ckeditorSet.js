@@ -21,7 +21,7 @@ CKEDITOR.replace( editor,
   { name: 'styles', items : [ 'Font','FontSize' ] },
   { name: 'colors', items : [ 'TextColor','BGColor' ] },
   { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
-  '/',
+
   { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
   { name: 'insert', items : [ 'Image','Table','HorizontalRule','SpecialChar'] },
 

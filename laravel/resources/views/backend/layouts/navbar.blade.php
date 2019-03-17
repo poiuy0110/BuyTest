@@ -28,10 +28,11 @@
                     商品管理    
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ route('admin.home.edit') }}">商品管理</a>
-                    <a class="dropdown-item" href="{{ route('admin.home.edit') }}">商品評價管理</a>
+                    <a class="dropdown-item" href="{{ route('admin.category.index') }}">類別設定</a>
+                    <a class="dropdown-item" href="{{ route('admin.product.index') }}">商品管理</a>
+                    <!--<a class="dropdown-item" href="{{ route('admin.home.edit') }}">商品評價管理</a>
                     <a class="dropdown-item" href="{{ route('admin.home.edit') }}">產品資訊</a>
-                    <a class="dropdown-item" href="{{ route('admin.home.edit') }}">集點類別</a>
+                    <a class="dropdown-item" href="{{ route('admin.home.edit') }}">集點類別</a>-->
                 </div>
             </li>
             <li class="nav-item">

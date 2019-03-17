@@ -30,7 +30,8 @@ Route::get('/admin/register', function (){
 Route::post('/admin/login', 'Auth\LoginController@authenticate')->name('login');
 Route::post('/admin/register', 'Auth\RegisterController@register')->name('register');
 
-Route::post('/admin/ckeditorFileUpload', 'Controller@uploadImageContent')->name('uploadImageContent');
+Route::post('/admin/ckeditorFileUpload', 'Controller@uploadImageContent');
+Route::get('/admin/getProdComplete', 'Backend\AutoCompleteController@getProdComplete');
 
 
 
@@ -61,11 +62,16 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
 
     Route::resource('category', 'Backend\CategoryController');
 
-    
-   
+    Route::resource('orders', 'Backend\OrdersController');
+
+    Route::get('orders/itemCreate/{odr_id}', 'Backend\OrdersController@itemCreate')->name('orders.itemCreate');
+    Route::post('orders/itemStore', 'Backend\OrdersController@itemStore')->name('orders.itemStore');
+    Route::post('orders/itemUpdate', 'Backend\OrdersController@itemUpdate')->name('orders.itemUpdate');
  
     // Product的增刪改查還有index頁面
-    Route::resource('product', 'Backend\ProductController');
+    Route::resource('product', 'Backend\ProductController')->except(['getPrice','show']);
+    Route::get('product/show', 'Backend\ProductController@show')->name('product.show');
+    Route::get('product/getPrice', 'Backend\ProductController@getPrice');
  
     // Store的更新
     Route::get('store', 'Backend\StoreController@edit')->name('store.edit');

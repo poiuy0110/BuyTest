@@ -50,6 +50,14 @@
                 <td><input name="photo" type="file">@isset($product)<img src="{{asset('uploads/product/'. $product->photo)}}">@endisset</td>
             </tr>
             <tr>
+                <th class="info">單價:</th>
+                <td><input name="price" value="@isset($product){{$product->price}}@endisset" size="10"></td>
+            </tr>
+            <tr>
+                <th class="info">庫存數:</th>
+                <td><input name="qty" value="@isset($product){{$product->qty}}@endisset" size="10"></td>
+            </tr>
+            <tr>
                 <th class="info">顯示:</th>
                 <td><input type="checkbox" name="vw" value="1"  @isset($product){{$product->vw==1?'checked':''}}@endisset ></td>
             </tr>

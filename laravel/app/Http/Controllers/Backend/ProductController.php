@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use DB;
+use Illuminate\Support\Facades\Input;
 
 class ProductController extends Controller
 {
@@ -30,10 +31,7 @@ class ProductController extends Controller
     public function create()
     {   
 
-        $sql = DB::table('Category');
-        $sql->where('vw', '=', "1");
-        $sql->orderBy('seq', 'desc');
-        $cat_lists = $sql->get();
+        $cat_lists = $this->getCatLists();
         
         return view('backend.product.edit', compact('cat_lists'));     
     }
@@ -42,8 +40,10 @@ class ProductController extends Controller
     public function edit($id="")
     {   
         if($id != ""){
+
+            $cat_lists = $this->getCatLists();
             $product = Product::find($id);
-            return view('backend.product.edit', compact('product'));
+            return view('backend.product.edit', compact(['product', 'cat_lists']));
         } else {
             return view('backend.product.edit');
         }            
@@ -52,24 +52,26 @@ class ProductController extends Controller
     {      
         $fileName = "";
 
-        if (!file_exists('uploads/product')) {
+        /*if (!file_exists('uploads/product')) {
             mkdir('uploads/product', 0755, true);
-        }
+        }*/
         $product = Product::find($request->input("id"));
 
         if ($request->hasFile('photo')) {
-            @unlink('uploads/product/' . $product->photo);
-            $file = $request->file('photo');
-            $path = public_path() . '\uploads\product\\';
-            $fileName = time() . '.' . $file->getClientOriginalExtension();
-            $file->move($path, $fileName);
+            
+            if ($request->hasFile('photo')) {
+                $fileName = $this->fileUpload($product, 'photo',  '\uploads\product\\', $request);
+            }
         }
-
+        
+        $product->cat_id = $request->input("cat_id");
         $product->name = $request->input("name");
         $product->desp = $request->input("desp");
         $product->vw = $request->input("vw");
         $product->hot = $request->input("hot");
-        $product->seq = $request->input("seq");
+        $product->qty = $request->input("qty");
+        $product->new = $request->input("new");
+        $product->price = $request->input("price");
 
         if ($fileName)
             $product->photo = $fileName;
@@ -83,7 +85,7 @@ class ProductController extends Controller
 
         
 
-        $sql = DB::table('Product');
+        $sql = Product::with('category');
 
         if($request["name"] != ""){
             $sql->where('name', 'like', '%' .$request["name"] . '%');
@@ -109,6 +111,16 @@ class ProductController extends Controller
             
         }
 
+        if($request["new"] != ""){
+            if($request["new"] != "2"){
+                $sql->where('new', '=',  $request["new"]);
+            } else {
+                $sql->where('new', '=',  0)->orWhere('new','=', "")->orWhereNull('new');
+            }
+                
+            
+        }
+
 
         return $sql;
     }
@@ -121,6 +133,7 @@ class ProductController extends Controller
         $req["name"] = $request->input("name");
         $req["vw"] = $request->input("vw");
         $req["hot"] = $request->input("hot");
+        $req["new"] = $request->input("new");
 
         return $req;
 
@@ -134,8 +147,8 @@ class ProductController extends Controller
     }
 
 
-    public function show($id)
-    {   
+    public function show(Request $request)
+    {   $id = $request->input("id");
         $product = Product::find($id);
         return view('backend.product.show', compact('product'));
            
@@ -146,22 +159,20 @@ class ProductController extends Controller
 
         $fileName = "";
 
-        if (!file_exists('uploads/product')) {
-            mkdir('uploads/product', 0755, true);
-        }
+        
         
         $product = new Product;
         if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $path = public_path() . '\uploads\product\\';
-            $fileName = time() . '.' . $file->getClientOriginalExtension();
-            $file->move($path, $fileName);
+            $fileName = $this->fileUpload($product, 'photo',  '\uploads\product\\', $request);
         }
+        $product->cat_id = $request->input("cat_id");
         $product->name = $request->input("name");
         $product->desp = $request->input("desp");
         $product->vw = $request->input("vw");
         $product->hot = $request->input("hot");
-        $product->seq = $request->input("seq");
+        $product->new = $request->input("new");
+        $product->qty = $request->input("qty");
+        $product->price = $request->input("price");
 
         if ($fileName)
             $product->photo = $fileName;
@@ -173,7 +184,26 @@ class ProductController extends Controller
 
 
 
+    function getCatLists(){
 
+        $sql = DB::table('Category');
+        $sql->where('vw', '=', "1");
+        $sql->orderBy('seq', 'desc');
+        $cat_lists = $sql->get();
+
+        return $cat_lists;
+
+    }
+
+    function getPrice(){
+
+        $id = Input::get('prod_id');
+        $product = Product::find($id);
+
+        echo $product->price;
+
+
+    }
 
 
 

@@ -17,15 +17,17 @@
   <link href="{{ asset('css/backend.css') }}" rel="stylesheet">
   <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
   <script src="{{ asset('unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
-</head>
-<body>
-  @include('backend.layouts.navbar') @yield('content')
   <!-- Bootstrap core JavaScript -->
   <script src="{{ asset('jquery/jquery.min.js') }}"></script>
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
   <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('js/ckeditorSet.js') }}"></script>
+  <script src="{{ asset('js/autoComplete.js') }}"></script>
+</head>
+<body>
+  @include('backend.layouts.navbar') @yield('content')
+  
   <script type="text/javascript">
     $(function () {
       $( ".jdate" ).datepicker({

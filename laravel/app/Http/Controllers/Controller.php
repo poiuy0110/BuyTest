@@ -47,6 +47,30 @@ class Controller extends BaseController
         }
     }
 
+function fileUpload($obj, $file_name, $path, $request){
+
+
+    if (!file_exists($path)) {
+        mkdir($path, 0755, true);
+    }
+
+    if ($request->hasFile($file_name)) {
+        @unlink('uploads/product/' . $obj->photo);
+        $file = $request->file($file_name);
+        $path = public_path() . $path;
+        $fileName = time() . '.' . $file->getClientOriginalExtension();
+        $file->move($path, $fileName);
+    }
+
+    //echo $fileName;
+
+
+    return $fileName;
+
+}
+
+
+
 
 
 
