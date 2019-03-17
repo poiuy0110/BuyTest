@@ -62,9 +62,10 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
 
     Route::resource('category', 'Backend\CategoryController');
 
-    Route::resource('orders', 'Backend\OrdersController');
+    Route::resource('orders', 'Backend\OrdersController')->except(['show']);
 
     Route::get('orders/itemCreate/{odr_id}', 'Backend\OrdersController@itemCreate')->name('orders.itemCreate');
+    Route::get('orders/show', 'Backend\OrdersController@show')->name('orders.show');
     Route::post('orders/itemStore', 'Backend\OrdersController@itemStore')->name('orders.itemStore');
     Route::post('orders/itemUpdate', 'Backend\OrdersController@itemUpdate')->name('orders.itemUpdate');
  
@@ -73,9 +74,11 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::get('product/show', 'Backend\ProductController@show')->name('product.show');
     Route::get('product/getPrice', 'Backend\ProductController@getPrice');
  
-    // Store的更新
-    Route::get('store', 'Backend\StoreController@edit')->name('store.edit');
-    Route::post('store', 'Backend\StoreController@update')->name('store.update');
+    Route::resource('store', 'Backend\StoreController');
+
+    Route::resource('indexslide', 'Backend\IndexSlideController');
+
+    Route::resource('params', 'Backend\ParamsController');
 
     
 

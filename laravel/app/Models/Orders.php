@@ -51,4 +51,13 @@ class Orders extends Model
     }
 
 
+    public function getProdNameAttribute() 
+    {
+        $this->attributes['prod_name'] =  DB::table('product')
+        ->select(DB::raw(
+            " NANE as prod_name"
+        ))->where('id', '=', $this->prod_id)->get();
+    }  
+
+
 }

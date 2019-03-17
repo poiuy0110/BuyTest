@@ -7,7 +7,7 @@
                 <h4>訂單管理</h4>
                 <div class="well well-sm">
                         <header>
-                            <form class="form-inline" action="{{ route('admin.orders.index') }}" method="get">
+                            <form class="form-inline" action="{{ route('admin.orders.index') }}" method="get" autocomplete="off">
                                 <div class="form-group">
                                     <label>訂單編號: </label>
                                     <input type="text" size="10" name="odr_no" value="{{$req['odr_no']}}" placeholder="">
