@@ -23,7 +23,19 @@
            
             
         <table class="table table-stripped table-bordered">
+            
 
+            <tr>
+                <th class="info">所屬商家:</th>
+                <td>
+                    <select name="store_id">
+                            <option value="">[無]</option>
+                        @foreach ($store_lists as $obj)
+                            <option value="{{$obj->id}}" @isset($product){{$product->store_id==$obj->id?'selected':''}}@endisset>{{$obj->name}}</option>
+                        @endforeach
+                    </select>   
+                </td>
+            </tr>
 
             <tr>
                 <th class="info">類別:</th>

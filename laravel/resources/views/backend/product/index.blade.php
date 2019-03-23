@@ -52,10 +52,11 @@
             <table class="table table-bordered table-striped  table-hover " >
                 <thead>
                     <tr>
-                        <th colspan="10"><a href='{{ route('admin.product.create') }}' class="btn btn-warning btn-sm">新增</a></th>
+                        <th colspan="11"><a href='{{ route('admin.product.create') }}' class="btn btn-warning btn-sm">新增</a></th>
                     </tr>
                     <tr class="info">
                         <th width="60"></th>
+                        <th  width="200">所屬商家</th>
                         <th  width="200">類別</th>
                         <th  width="200">名稱</th>
                         <th>圖片</th>
@@ -71,6 +72,7 @@
                     @foreach ($lists as $obj) 
                         <tr>
                             <th class="align-middle" scope="row">{{$loop->iteration}}</th>
+                            <td class="align-middle">@isset($obj->store){{ $obj->store->name }}@endisset</td>
                             <td class="align-middle">{{ $obj->category->name }}</td>
                             <td class="align-middle">{{ $obj->name }}</td>
                             <td class="align-middle">@isset($obj->photo)<img src="{{asset('uploads/product/'. $obj->photo)}}">@endisset</td>

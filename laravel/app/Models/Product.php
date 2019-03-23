@@ -15,4 +15,13 @@ class Product extends Model
         return $this->belongsTo('App\Models\Category', 'cat_id');
     }
 
+
+    public function store()
+    {   
+       
+            return $this->belongsTo('App\Models\Store', 'store_id');
+   
+        
+    }
+
 }

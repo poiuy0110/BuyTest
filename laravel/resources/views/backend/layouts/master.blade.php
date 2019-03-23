@@ -26,7 +26,8 @@
   <script src="{{ asset('js/autoComplete.js') }}"></script>
 </head>
 <body>
-  @include('backend.layouts.navbar') @yield('content')
+  @include('backend.layouts.navbar') 
+  @yield('content')
   
   <script type="text/javascript">
     $(function () {

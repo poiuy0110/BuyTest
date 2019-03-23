@@ -25,15 +25,19 @@ class ProductController extends Controller
 
 
     return view('backend.product.index', compact('lists', 'req'));
+
+  
+
+
     }
 
 
     public function create()
     {   
-
+        $store_lists = $this->getStoreLists();
         $cat_lists = $this->getCatLists();
         
-        return view('backend.product.edit', compact('cat_lists'));     
+        return view('backend.product.edit', compact(['cat_lists', 'store_lists']));     
     }
 
 
@@ -41,9 +45,10 @@ class ProductController extends Controller
     {   
         if($id != ""){
 
+            $store_lists = $this->getStoreLists();
             $cat_lists = $this->getCatLists();
             $product = Product::find($id);
-            return view('backend.product.edit', compact(['product', 'cat_lists']));
+            return view('backend.product.edit', compact(['product', 'cat_lists','store_lists']));
         } else {
             return view('backend.product.edit');
         }            
@@ -71,6 +76,7 @@ class ProductController extends Controller
         $product->hot = $request->input("hot");
         $product->qty = $request->input("qty");
         $product->new = $request->input("new");
+        $product->store_id = $request->input("store_id");
         $product->price = $request->input("price");
 
         if ($fileName)
@@ -85,7 +91,7 @@ class ProductController extends Controller
 
         
 
-        $sql = Product::with('category');
+        $sql = Product::with('store','category');
 
         if($request["name"] != ""){
             $sql->where('name', 'like', '%' .$request["name"] . '%');
@@ -173,6 +179,7 @@ class ProductController extends Controller
         $product->new = $request->input("new");
         $product->qty = $request->input("qty");
         $product->price = $request->input("price");
+        $product->store_id = $request->input("store_id");
 
         if ($fileName)
             $product->photo = $fileName;
@@ -194,6 +201,18 @@ class ProductController extends Controller
         return $cat_lists;
 
     }
+
+    function getStoreLists(){
+
+        $sql = DB::table('Store');
+        $sql->where('active', '=', "1");
+        $sql->orderBy('id');
+        $store_lists = $sql->get();
+
+        return $store_lists;
+
+    }
+    
 
     function getPrice(){
 

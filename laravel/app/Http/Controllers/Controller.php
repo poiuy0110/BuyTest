@@ -7,6 +7,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Carbon\Carbon;
+// /use App\Models\Product;
+use DB;
 
 class Controller extends BaseController
 {
@@ -70,6 +72,27 @@ function fileUpload($obj, $file_name, $path, $request){
 }
 
 
+function getFrontendCatLists(){
+
+    $cat_lists = DB::select('select distinct cat_id from `product` ');
+
+    foreach($cat_lists as $row){
+
+        $row->name = DB::table('category')->where('id', $row->cat_id)->value('name');
+        $row->store_lists =  DB::select('select distinct store_id from `product`  where cat_id='.$row->cat_id);
+        foreach($row->store_lists as $row2){
+            $row2->name = DB::table('store')->where('id', $row2->store_id)->value('name');
+
+        }  
+    }
+
+    return $cat_lists;
+
+}
+
+
+
+}
 
 
 
