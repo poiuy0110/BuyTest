@@ -53,7 +53,7 @@
                         <tr>
                             <th class="align-middle" scope="row">{{$loop->iteration}}</th>
                             <td class="align-middle">{{ $obj->title }}</td>
-                            <td class="align-middle">@isset($obj->photo)<img src="{{asset('uploads/indexslide/'. $obj->photo)}}">@endisset</td>
+                            <td class="align-middle">@isset($obj->photo)<img src="{{asset('uploads/indexslide/'. $obj->photo)}}"  width='500'>@endisset</td>
                             <td class="align-middle">
                                 @if ($obj->vw == 1)
                                     <span class='badge badge-success'>Y</span>

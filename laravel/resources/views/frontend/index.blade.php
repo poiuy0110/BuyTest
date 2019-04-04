@@ -1,40 +1,30 @@
 @extends('frontend.layouts.master')
-@section('title', 'Home')
+@section('title', 'Buy Test ')
 @section('nav_home', 'active')
 
 @section('content')
-    <section class="page-section clearfix">
-      <div class="container">
-        <div class="intro">
-          <img class="intro-img img-fluid mb-3 mb-lg-0 rounded" src="{{ $home->image }}" alt="">
-          <div class="intro-text left-0 text-center bg-faded p-5 rounded">
-            <h2 class="section-heading mb-4">
-              <span class="section-heading-upper">Fresh Coffee</span>
-              <span class="section-heading-lower">Worth Drinking</span>
-            </h2>
-            <p class="mb-3">{!! $home->content1 !!}
-            </p>
-            <div class="intro-button mx-auto">
-              <a class="btn btn-primary btn-xl" href="#">Visit Us Today!</a>
-            </div>
+   <section>
+   <div style="width:100%" id="owl_test" class="slider_mgs_carousel owl-carousel owl-theme owl-loaded">
+      @foreach ($index_photo_lists as $obj) 
+        <div><a href="{{$obj->url}}" target="_blank"><img src="{{$obj->photo_path}}"></a></div>
+      @endforeach
+   </div>
+   <h3>主題活動</h3>
+   <div class="row">
+   
+   
+      @foreach ($news_lists as $obj) 
+      <div class="col-md-3 col-sm-3 col-xs-12">
+        <div class="card">
+          <img class="card-img-top" src="{{asset('uploads/news/'. $obj->photo)}}" >
+          <div class="card-body">
+          <p class="card-text">{{$obj->subject}}</p>
           </div>
         </div>
       </div>
-    </section>
-
-    <section class="page-section cta">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-9 mx-auto">
-            <div class="cta-inner text-center rounded">
-              <h2 class="section-heading mb-4">
-                <span class="section-heading-upper">Our Promise</span>
-                <span class="section-heading-lower">To You</span>
-              </h2>
-              <p class="mb-0">{!! $home->content2 !!}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      @endforeach
+  
+  
+</div>
+  </section>
 @endsection

@@ -71,9 +71,9 @@
                                 <form method="POST" action="{{ route('admin.about.destroy', $obj->id) }}">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
-                                    <button type="submit" class="btn btn-secondary btn-sm">刪除</button>
+                                    <button type="submit" class="btn btn-secondary btn-sm" onclick="return confirm('您確定要刪除嗎??');">刪除</button>
                                 </form>
-                                <a href="{{ route('admin.about.show', $obj->id) }}" class="btn btn-success btn-sm"  onclick="return confirm('您確定要刪除嗎??');">內容</a>
+                                <a href="{{ route('admin.about.show', $obj->id) }}" class="btn btn-success btn-sm"  >內容</a>
                             </td>  
                         </tr>
                     @endforeach

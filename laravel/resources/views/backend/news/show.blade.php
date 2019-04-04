@@ -22,6 +22,10 @@
                 <td>{{$news->subject}}</td>
             </tr>
             <tr>
+                <th class="info">封面圖片:</th>
+                <td>@isset($news)<img src="{{ asset('uploads/news/'. $news->photo)  }}">@endisset</td>
+            </tr>
+            <tr>
                 <th class="info">說明:</th>
                 <td>{!! nl2br($news->desp) !!}</td>
             </tr>

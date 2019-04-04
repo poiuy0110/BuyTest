@@ -88,7 +88,6 @@
                             <td class="align-right">{{ $obj->pay_str }}</td>
                             <td class="align-right">{{ $obj->ship_str }}</td>
                             <td class="align-middle">
-                                <a href="{{ route('admin.orders.edit', $obj->id) }}" class="btn btn-primary btn-sm">修改</a>
                                 
                                 <a href="{{ route('admin.orders.show', $obj->id) }}" class="btn btn-success btn-sm"  >內容</a>
 

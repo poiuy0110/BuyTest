@@ -50,6 +50,10 @@ class NewsController extends Controller
         } else {
             $news = new About;
         }
+
+        if (!file_exists('uploads/news')) {
+            mkdir('uploads/news', 0755, true);
+        }
         
         $news->kind = "主題活動";
         $news->post_date = $request->input("post_date");
@@ -61,6 +65,19 @@ class NewsController extends Controller
         } else {
             $news->vw = 0;
         }
+
+        if ($request->hasFile('photo')) {
+            @unlink('uploads/news/' . $news->photo);
+            $file = $request->file('photo');
+            $path = public_path() . '\uploads\news\\';
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move($path, $fileName);
+        }
+
+        if ($fileName)
+            $news->photo = $fileName;
+
+
         
         $news->save();
 

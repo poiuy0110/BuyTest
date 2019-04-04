@@ -33,6 +33,10 @@
                 <td><input name="subject" value="@isset($news){{$news->subject}}@endisset" style="width:100%"></td>
             </tr>
             <tr>
+                <th class="info">封面圖片:</th>
+                <td><input name="photo" type="file">@isset($news)<img src="{{asset('uploads/news/'. $news->photo)}}">@endisset</td>
+            </tr>
+            <tr>
                 <th class="info">說明:</th>
                 <td><textarea name="desp" style="width:100%" rows="5" id="desp" class="ckeditor_set">@isset($news){{$news->desp}}@endisset</textarea> </td>
             </tr>

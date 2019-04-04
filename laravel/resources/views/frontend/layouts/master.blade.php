@@ -15,14 +15,23 @@
   <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
   <!-- Custom styles for backend -->
   <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
+  <!-- Owl Css -->
+  <link href="{{ asset('owlcarousel/assets/owl.carousel.css') }}" rel="stylesheet">
+  <link href="{{ asset('owlcarousel/assets/owl.theme.default.css') }}" rel="stylesheet">
+  <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet">
+
   <!-- Bootstrap core JavaScript -->
   <script src="{{ asset('jquery/jquery.min.js') }}"></script>
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
   <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('js/frontendIndex.js') }}"></script>
+  <script src="{{ asset('owlcarousel/owl.carousel.js') }}"></script>
+  @stack('head')
 </head>
 <body>
-  @include('backend.layouts.navbar') 
+  @include('frontend.layouts.top')
+  @include('frontend.layouts.navbar')
   @yield('content')
   
   

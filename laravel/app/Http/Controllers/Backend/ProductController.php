@@ -153,8 +153,8 @@ class ProductController extends Controller
     }
 
 
-    public function show(Request $request)
-    {   $id = $request->input("id");
+    public function show($id)
+    {   
         $product = Product::find($id);
         return view('backend.product.show', compact('product'));
            

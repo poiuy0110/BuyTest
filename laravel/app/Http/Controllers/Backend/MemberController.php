@@ -148,7 +148,7 @@ class MemberController extends Controller
             }
         });
         if ($validator->fails()) {
-            return back()->withErrors($validator); //返回一次性錯誤
+            return back()->withErrors($validator); 
         }
 
         $member->password = bcrypt($password);

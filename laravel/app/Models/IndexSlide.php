@@ -9,7 +9,9 @@ class IndexSlide extends Model
     //
     protected $table = 'index_slide';
 
-
+    function getPhotoPathAttribute(){
+        return "/uploads/indexslide/".$this->photo;
+    }
 
    
 

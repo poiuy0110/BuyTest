@@ -60,4 +60,13 @@ class Orders extends Model
     }  
 
 
+
+    public function createNo() 
+    {
+        $latestOrder = Orders::orderBy('created_at','DESC')->first();
+        return '#'.str_pad($latestOrder->id + 1, 8, "0", STR_PAD_LEFT);
+    }  
+
+
+
 }
