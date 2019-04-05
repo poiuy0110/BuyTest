@@ -9,6 +9,7 @@ use App\Models\OdrItem;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use DB;
+use PDF;
 
 class OrdersController extends Controller
 {
@@ -182,6 +183,16 @@ class OrdersController extends Controller
         OdrItem::whereId($id)->update($request->except(['_method','_token']));
 
         return redirect()->route('admin.orders.show', $request->input("odr_id"));
+    }
+
+
+
+    public function generatePDF($id)
+    {
+        $data = ['title' => 'Welcome to HDTuto.com'];
+        $pdf = PDF::loadView('backend.pdf.testPDF', $data);
+  
+        return $pdf->download('itsolutionstuff.pdf');
     }
     
 
