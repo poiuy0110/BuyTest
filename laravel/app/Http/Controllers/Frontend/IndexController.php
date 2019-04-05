@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\IndexSlide;
 use App\Models\About;
+use App\Models\Product;
+
 
 class IndexController extends Controller
 {
@@ -14,8 +16,9 @@ class IndexController extends Controller
         $index_photo_lists = $this->getIndexSlideLists();    
         $cat_lists = $this->getFrontendCatLists();
         $news_lists = $this->getNewsLists();   
+        $hot_lists = $this->getHotLists();   
 
-        return view('frontend.index', compact(['cat_lists','index_photo_lists','news_lists']));
+        return view('frontend.index', compact(['cat_lists','index_photo_lists','news_lists','hot_lists']));
     }
 
 
@@ -34,6 +37,15 @@ class IndexController extends Controller
         $news_lists = About::where('kind','=','主題活動')->orderBy('id')->get();
 
         return $news_lists;
+
+    }
+
+    private function getHotLists()
+    {
+
+        $hot_lists = Product::where('hot','=','1')->orderBy('id')->get();
+
+        return $hot_lists;
 
     }
     

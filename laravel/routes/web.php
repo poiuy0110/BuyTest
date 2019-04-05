@@ -43,6 +43,8 @@ Route::get('/member/memberEdit', 'Frontend\MemberController@memberEdit')->name('
 Route::post('/member/memberSave', 'Frontend\MemberController@memberSave')->name('member.memberSave');
 Route::get('/member/memberChgPass', 'Frontend\MemberController@memberChgPass')->name('member.memberChgPass');
 Route::post('/member/memberChgPassSave', 'Frontend\MemberController@memberChgPassSave')->name('member.memberChgPassSave');
+Route::get('/member/memberEmailConfirm/{url_token}', 'Frontend\MemberController@memberEmailConfirm')->name('member.memberEmailConfirm');
+
 
 /*        Member              */
 

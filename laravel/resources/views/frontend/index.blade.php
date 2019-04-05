@@ -16,15 +16,32 @@
       @foreach ($news_lists as $obj) 
       <div class="col-md-3 col-sm-3 col-xs-12">
         <div class="card">
-          <img class="card-img-top" src="{{asset('uploads/news/'. $obj->photo)}}" >
+          @isset($obj->photo)<img class="card-img-top" src="{{asset('uploads/news/'. $obj->photo)}}" >@endisset
           <div class="card-body">
           <p class="card-text">{{$obj->subject}}</p>
           </div>
         </div>
       </div>
       @endforeach
+    </div>
+   <h3>熱門商品</h3>
+   <div class="row">
+      @foreach ($hot_lists as $obj) 
+      <div class="col-md-3 col-sm-3 col-xs-12">
+        <a href="{{ route('product.prodShow', $obj->id) }}" style="color:rgba(0,0,0,.5)">
+        <div class="card">
+          <img class="card-img-top" src="{{asset('uploads/product/'. $obj->photo)}}" >
+          <div class="card-body">
+          <p class="card-text text-center">{{$obj->name}}</p>
+          </div>
+        </div>
+      </a>
+      </div>
+      
+      @endforeach
+    </div>
   
   
-</div>
+
   </section>
 @endsection

@@ -37,13 +37,13 @@ class MemberController extends Controller
         $validator = Validator::make($request->all(), $rules);
         if ($validator->passes()) {
 
-            $cr = ['login_id' => $request->input("login_id"), 'password' => $request->input("password")];
+            $cr = ['login_id' => $request->input("login_id"), 'password' => $request->input("password"), 'active' => "1"];
 
             $attempt = Auth::guard("frontend")->attempt($cr);
 
-            
-            //echo $request->input("password");
-            if($attempt){
+
+
+            if($attempt){   
                 return redirect()->intended('index');
             } else {
                
@@ -121,6 +121,7 @@ class MemberController extends Controller
                 $oMember->name = $request->input("name");
                 $oMember->email = $request->input("email");
                 $oMember->mobile = $request->input("mobile");
+                $oMember->active_token = bcrypt(date("YmdHis"). $request->input("login_id").rand());
                 $oMember->save();
                 $this->sendConfirmEmail($oMember->id);
                 //return redirect()->intended('login');
@@ -286,6 +287,8 @@ class MemberController extends Controller
             if (!\Hash::check($old_pass, $member->password)) {
                 $validator->errors()->add('old_pass', '原密碼錯誤');
             }
+
+            
         });
         if ($validator->fails()) {
             return back()->withErrors($validator); 
@@ -295,6 +298,27 @@ class MemberController extends Controller
         $member->save();
 
         return redirect()->route('member.memberShow');
+
+
+    }
+
+
+    function memberEmailConfirm($url_token){
+
+        $oMember = Member::where("active_token", "=", $url_token)->first();
+
+        if($oMember != null){
+            if($oMember->active != "1"){
+                $oMember->active = "1";
+                $oMember->active_token = "";
+                $oMember->save();
+            } else {
+                return redirect()->route('member.login');
+            }
+        } else {
+            return redirect()->route('member.login');
+        }
+
 
 
     }

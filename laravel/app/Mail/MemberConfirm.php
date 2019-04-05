@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Request;
 
 class MemberConfirm extends Mailable
 {
@@ -30,7 +31,14 @@ class MemberConfirm extends Mailable
      * @return $this
      */
     public function build()
-    {
-        return $this->view('mail.memberconfirm');
+    {   
+
+        $member = $this->oMember;
+
+        $domain = Request::server('REMOTE_ADDR');
+        
+        $member->active_url = $domain."/member/memberEmailConfirm/".$member->active_token;
+
+        return $this->view('mail.memberconfirm',compact('member'));
     }
 }
