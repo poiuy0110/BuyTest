@@ -1,5 +1,4 @@
 {
     "require": {
-        "barryvdh/laravel-dompdf": "^0.8.4"
     }
 }

@@ -144,6 +144,10 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
 
     Route::get('orders/itemCreate/{odr_id}', 'Backend\OrdersController@itemCreate')->name('orders.itemCreate');
     Route::get('orders/show/{id}', 'Backend\OrdersController@show')->name('orders.show');
+    Route::get('orders/printListPDF', 'Backend\OrdersController@printListPDF')->name('orders.printListPDF');
+    Route::get('orders/exportListCSV', 'Backend\OrdersController@exportListCSV')->name('orders.exportListCSV');
+    
+    
     Route::post('orders/itemStore', 'Backend\OrdersController@itemStore')->name('orders.itemStore');
     Route::post('orders/itemUpdate', 'Backend\OrdersController@itemUpdate')->name('orders.itemUpdate');
  

@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use DB;
 use PDF;
+use SnappyImage;
+use Excel;
+use App\Http\Controllers\Export\ExportCSV;
+
 
 class OrdersController extends Controller
 {
@@ -187,15 +191,31 @@ class OrdersController extends Controller
 
 
 
-    public function generatePDF($id)
-    {
-        $data = ['title' => 'Welcome to HDTuto.com'];
+    public function printListPDF()
+    {   
+
+        $lists = Orders::whereRaw('1 = 1')->get();
+
+        foreach($lists as $row){
+            $row->item_lists = OdrItem::where('odr_id','=',$row->id)->get();
+        }
+
+
+        $data = ['lists' => $lists];
+        
         $pdf = PDF::loadView('backend.pdf.testPDF', $data);
   
-        return $pdf->download('itsolutionstuff.pdf');
+        return $pdf->stream('itsolutionstuff.pdf');
+    }
+
+    public function exportListCSV()
+    {   
+
+        $lists = Orders::whereRaw('1 = 1')->get();
+
+  
+        return Excel::download(new ExportCSV($lists, "backend.csv.orders"), 'invoices.xlsx');
     }
     
-
-
-
+    
 }

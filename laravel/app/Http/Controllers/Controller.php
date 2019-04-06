@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Carbon\Carbon;
 // /use App\Models\Product;
 use DB;
+use Excel;
 
 class Controller extends BaseController
 {
@@ -89,6 +90,11 @@ function getFrontendCatLists(){
     return $cat_lists;
 
 }
+
+
+
+
+
 
 
 
