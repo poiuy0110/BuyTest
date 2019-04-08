@@ -331,6 +331,60 @@ class MemberController extends Controller
     }
 
 
+    function resendConfirmEmail(){
+
+        $cat_lists = $this->getFrontendCatLists();
+        return view('frontend.member.resendConfirmEmail', compact('cat_lists'));
+
+    }
+
+
+    function comfirmEmailResend(Request $request){
+
+
+        $rules = [
+            'email' => 'required|email',
+            ];
+        
+        $messages = [
+            'email.required' => "請輸入Email!",
+            'email.email' => "輸入Email格式不正確!",
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->passes()) {
+            
+            $oMember = Member::where('email', '=', $request->input("email"))->first();
+
+            //print_r($oMember);
+
+            if($oMember != null){
+                if($oMember->active != "1"){
+                    $this->sendPassEmail($oMember->id);
+                    return redirect()->back()->with('message', '認證信已經送出!');
+                } else {
+                    $validator->errors()->add('email', '此帳號已經驗證!');
+                    return Redirect::to('/member/resendConfirmEmail')->withErrors($validator);
+                }
+            } else{
+
+                $validator->errors()->add('email', '此email不存在!');
+                
+                return Redirect::to('/member/resendConfirmEmail')->withErrors($validator);
+
+            }
+        } else {
+
+
+            return Redirect::to('/member/resendConfirmEmail')->withErrors($validator);
+
+        }
+
+
+    }
+
+
     
    
 

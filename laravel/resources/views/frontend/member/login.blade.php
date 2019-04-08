@@ -23,7 +23,7 @@
                     </div>
                     <input class="btn btn-lg btn-block btn_fronted_def" type="submit" value="登入">
                   </fieldset>
-              <div class="" style="margin-top:10px"><a href="{{ route('frontend.forgetPass') }}">忘記密碼？</a> . &nbsp;<a href="{{ route('frontend.register') }}">新會員註冊？</a></div>
+              <div class="" style="margin-top:10px"><a href="{{ route('frontend.forgetPass') }}">忘記密碼？</a> . &nbsp;<a href="{{ route('frontend.register') }}">新會員註冊？</a>  . &nbsp;<a href="{{ route('member.resendConfirmEmail') }}">重寄認證信</a></div>
                       
             </div>
           <div class="col-md-4"></div>

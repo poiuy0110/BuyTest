@@ -44,6 +44,8 @@ Route::post('/member/memberSave', 'Frontend\MemberController@memberSave')->name(
 Route::get('/member/memberChgPass', 'Frontend\MemberController@memberChgPass')->name('member.memberChgPass');
 Route::post('/member/memberChgPassSave', 'Frontend\MemberController@memberChgPassSave')->name('member.memberChgPassSave');
 Route::get('/member/memberEmailConfirm/{url_token}', 'Frontend\MemberController@memberEmailConfirm')->name('member.memberEmailConfirm');
+Route::get('member/resendConfirmEmail', 'Frontend\MemberController@resendConfirmEmail')->name('member.resendConfirmEmail');
+Route::post('member/comfirmEmailResend', 'Frontend\MemberController@comfirmEmailResend')->name('member.comfirmEmailResend');
 
 
 /*        Member              */
@@ -136,6 +138,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
 
     Route::resource('member', 'Backend\MemberController');
     Route::get('member/{id}/chgPass', 'Backend\MemberController@chgPass')->name('member.chgPass');
+    
     Route::post('member/chgPassSave', 'Backend\MemberController@chgPassSave')->name('member.chgPassSave');
 
     Route::resource('category', 'Backend\CategoryController');
