@@ -10,6 +10,11 @@
             <div class="col-md-4 text-center">
               <h4>會員登入</h4>
                   <fieldset>
+                      @if(session()->has('success_message'))
+                        <div class="alert alert-success">
+                          {{ session()->get('success_message') }}
+                        </div>
+                      @endif
                       <div class="form-group">
                         <input class="form-control text-center" placeholder="帳號" name="login_id" type="text" value="" required>
                     </div>
