@@ -115,19 +115,26 @@ class MemberController extends Controller
                 return Redirect::to('register')->withErrors($validator);
             } else{
 
-                $oMember = new Member();
-                $oMember->login_id = $request->input("login_id");
-                $oMember->password = bcrypt($request->input("password"));
-                $oMember->name = $request->input("name");
-                $oMember->email = $request->input("email");
-                $oMember->mobile = $request->input("mobile");
-                $oMember->active_token = bcrypt(date("YmdHis"). $request->input("login_id").rand());
-                $oMember->save();
-                $this->sendConfirmEmail($oMember->id);
-                //return redirect()->intended('login');
+                $oMember = Member::where('email', '=', $request->input("email"))->first();
+                if($oMember != null){
+                    $validator->errors()->add('email', '此Email已經存在!');
+                    return Redirect::to('register')->withErrors($validator);
+                } else {
+                    
+                    $oMember = new Member();
+                    $oMember->login_id = $request->input("login_id");
+                    $oMember->password = bcrypt($request->input("password"));
+                    $oMember->name = $request->input("name");
+                    $oMember->email = $request->input("email");
+                    $oMember->mobile = $request->input("mobile");
+                    $oMember->active_token = bcrypt(date("YmdHis"). $request->input("login_id").rand());
+                    $oMember->save();
+                    $this->sendConfirmEmail($oMember->id);
 
+                    return Redirect::to('member/login')->with('success_message', '會員啟用通知信已寄出!');
+
+                }
                 
-                return Redirect::to('member/login');
 
             }
         } else {
