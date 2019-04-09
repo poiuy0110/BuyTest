@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Request;
 
 class ResendPass extends Mailable
 {
@@ -30,7 +31,11 @@ class ResendPass extends Mailable
      * @return $this
      */
     public function build()
-    {
-        return $this->view('mail.memberconfirm');
+    {   $member = $this->oMember;
+
+        $domain = Request::server('REMOTE_ADDR');
+        
+        $member->chgpass_url = "http://".$domain."/member/memberChgPassConfirm/".htmlspecialchars($member->chgpass_token, ENT_COMPAT);
+        return $this->view('mail.memberchgpass',compact('member'));
     }
 }

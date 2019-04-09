@@ -4,7 +4,7 @@
 
 @section('content')
    <section>
-      <form method="POST" action="{{ route('member.comfirmEmailResend') }}" enctype="multipart/form-data">
+      <form method="POST" action="{{ route('member.confirmEmailResend') }}" enctype="multipart/form-data">
         <div class="row div_margin_30">
             <div class="col-md-4"></div>
             <div class="col-md-4 text-center">

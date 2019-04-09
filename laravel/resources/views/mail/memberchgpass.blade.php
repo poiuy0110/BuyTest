@@ -7,8 +7,8 @@
     
     <p>Dear {{$member->name}}</p>
     <p>
-        請點選以下連結，以啟用會員帳號
-        <a href="{{$member->active_url}}">啟用帳號</a>
+        請點選以下連結，以變更密碼
+        <a href="{{$member->chgpass_url}}">變更密碼</a>
     </p>
     
     

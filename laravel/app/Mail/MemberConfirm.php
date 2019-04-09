@@ -37,7 +37,7 @@ class MemberConfirm extends Mailable
 
         $domain = Request::server('REMOTE_ADDR');
         
-        $member->active_url = $domain."/member/memberEmailConfirm/".$member->active_token;
+        $member->active_url = "http://".$domain."/member/memberEmailConfirm/".htmlspecialchars($member->active_token, ENT_COMPAT);
 
         return $this->view('mail.memberconfirm',compact('member'));
     }

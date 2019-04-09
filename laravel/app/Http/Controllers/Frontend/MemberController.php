@@ -172,6 +172,9 @@ class MemberController extends Controller
             //print_r($oMember);
 
             if($oMember != null){
+
+                $oMember->chgpass_token = bcrypt(date("YmdHis"). $request->input("login_id").rand());
+                $oMember->save();
                 $this->sendPassEmail($oMember->id);
                 return redirect()->back()->with('message', '重設密碼email已經送出!');
 
@@ -274,7 +277,7 @@ class MemberController extends Controller
     function memberChgPassSave(Request $request){
 
         $id = Auth::guard('frontend')->id();
-        $member = Member::find($id );
+        $member = Member::find($id);
 
         $old_pass = $request->input('old_pass');
         $password = $request->input('password');
@@ -339,7 +342,7 @@ class MemberController extends Controller
     }
 
 
-    function comfirmEmailResend(Request $request){
+    function confirmEmailResend(Request $request){
 
 
         $rules = [
@@ -383,6 +386,62 @@ class MemberController extends Controller
 
 
     }
+
+
+    function memberChgPassConfirm($url_token){
+
+        //$oMember = Member::where("chgpass_token", "=", $url_token)->first();
+       
+
+        /*if($oMember != null){
+                $id = $oMember->id;
+                return redirect()->route('member.forgetPassShow', $id);
+        } else {
+            return redirect()->route('frontend.forgetPass');
+        }*/
+
+
+
+    }
+
+    public function forgetPassShow($id)
+    {    
+        $cat_lists = $this->getFrontendCatLists();
+        $member = Member::find($id);
+        return view('frontend.member.forgetPassShow', compact(['cat_lists','member']));
+    }
+
+
+    function chgForgotPass(Request $request){
+
+        $id = $request->input("id");
+        $member = Member::find($id);
+
+        $password = $request->input('password');
+        $data = $request->except(['_method','_token']);
+
+        $rules = [
+            'password'=>'required|between:6,20|confirmed',
+        ];
+        $messages = [
+            'required' => '密碼不能為空',
+            'between' => '密碼必須是6~20位之間',
+            'confirmed' => '新密碼和確認密碼不匹配'
+        ];
+        $validator = Validator::make($data, $rules, $messages);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator); 
+        }
+
+        $member->chgpass_token = "";
+        $member->password = bcrypt($password);
+        $member->save();
+
+        return redirect()->route('member.login');
+
+    }
+
 
 
     

@@ -45,7 +45,13 @@ Route::get('/member/memberChgPass', 'Frontend\MemberController@memberChgPass')->
 Route::post('/member/memberChgPassSave', 'Frontend\MemberController@memberChgPassSave')->name('member.memberChgPassSave');
 Route::get('/member/memberEmailConfirm/{url_token}', 'Frontend\MemberController@memberEmailConfirm')->name('member.memberEmailConfirm');
 Route::get('member/resendConfirmEmail', 'Frontend\MemberController@resendConfirmEmail')->name('member.resendConfirmEmail');
-Route::post('member/comfirmEmailResend', 'Frontend\MemberController@comfirmEmailResend')->name('member.comfirmEmailResend');
+Route::post('member/confirmEmailResend', 'Frontend\MemberController@confirmEmailResend')->name('member.confirmEmailResend');
+Route::get('/member/memberChgPassConfirm/{url_token}', 'Frontend\MemberController@memberChgPassConfirm')->name('member.memberChgPassConfirm');
+Route::get('/member/forgetPassShow/{id}', 'Frontend\MemberController@forgetPassShow')->name('member.forgetPassShow');
+Route::post('/member/chgForgotPass', 'Frontend\MemberController@chgForgotPass')->name('member.chgForgotPass');
+
+
+
 
 
 /*        Member              */
