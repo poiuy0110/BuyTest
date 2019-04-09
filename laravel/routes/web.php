@@ -180,6 +180,10 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::resource('params', 'Backend\ParamsController');
      /* Params   */
 
+     /* Params   */
+    Route::resource('user', 'Backend\UserController');
+    /* Params   */
+
 
      /* Product   */
     Route::resource('product', 'Backend\ProductController')->except(['getPrice','show']);

@@ -7,7 +7,7 @@
 <div class="container">
     <h3 for="content" class="text-center">使用者管理</h3>
 
-        <form method="POST" action="{{ route('admin.user.update') }}" enctype="multipart/form-data">   
+        <form method="POST" action="{{ route('admin.user.store') }}" enctype="multipart/form-data">   
             
             {{ csrf_field() }}    
 
@@ -17,10 +17,17 @@
             
             <tr>
                 <th class="info">使用者帳號:</th>
-                <td>{{$user->user_id}}</td>
+                <td><input name="user_id" value="@isset($user){{$user->user_id}}@endisset" ></td>
                 <th class="info">使用者職稱:</th>
                 <td><input name="title" value="@isset($user){{$user->title}}@endisset" ></td>
             </tr>
+            <tr>
+                <th class="info">密碼:</th>
+                <td><input name="user_id" value="@isset($user){{$user->user_id}}@endisset" ></td>
+                <th class="info">確認密碼:</th>
+                <td><input name="title" value="@isset($user){{$user->title}}@endisset" ></td>
+            </tr>
+
             <tr>
                 <th class="info">使用者Email</th>
                 <td><input name="email" value="@isset($user){{$user->email}}@endisset"></td>
