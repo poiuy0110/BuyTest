@@ -1,14 +1,32 @@
 @extends('backend.layouts.master') 
-
+@push('head')
+<script src="{{ asset('js/backOrder.js') }}"></script>
+@endpush
 @section('title', '訂單管理') 
 
 @section('content')
 
 <div class="container">
     <h3 for="content" class="text-center">訂單管理</h3>
+    <meta name="csrf_token" content="{{ csrf_token() }}">
 
     <table class="table table-stripped table-bordered">
-            
+
+        <tr>
+            <td colspan="6">
+                @if ($orders->status == 1)
+                    <a href="{{ route('admin.orders.confirm', $orders->id) }}" class="btn btn-sm btn-primary">訂單確認</a>
+                @endif
+                @if ($orders->status == 2)
+                    <a href="{{ route('admin.orders.confirmCancel', $orders->id) }}" class="btn btn-sm btn-warning">取消訂單確認</a>
+                    <a href="{{ route('admin.orders.shipConfirm', $orders->id) }}" class="btn btn-sm btn-success"  id="updateShipNo">出貨確認</a>
+                @endif
+                @if ($orders->status == 3)
+                    <a href="{{ route('admin.orders.shipConfirmCancel', $orders->id) }}" class="btn btn-sm btn-warning">取消出貨確認</a>
+                @endif
+            </td>
+        </tr>
+        <input type="hidden" id="id" value="{{ $orders->id }}">
         <tr>
             <th class="info" width="120" colspan="6">訂單資料:</th>
         </tr>
@@ -80,7 +98,15 @@
             <th  width="120">收貨人:</th>
             <td>{{ $orders->ship_to }}</td> 
             <th  width="120">連絡電話:</th>
-            <td colspan="3">{{ $orders->ship_mobile }}</td> 
+            <td>{{ $orders->ship_mobile }}</td> 
+            <th  width="120">出貨單號:</th>
+            <td>
+                @if ($orders->status == 2)
+                    <input name="ship_no" id="ship_no" value="{{ $orders->ship_no }}">
+                @else
+                    {{ $orders->ship_no }}
+                @endif
+            </td> 
         </tr>
 
         <tr>
@@ -97,7 +123,6 @@
         </tr>
     </table>
 
-    <a href="{{ route('admin.orders.itemCreate', ['odr_id' => $orders->id]) }}" class="btn btn-sm btn-warning">新增</a>
 
     <table class="table table-stripped table-bordered">
         <tr>

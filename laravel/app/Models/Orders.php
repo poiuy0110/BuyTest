@@ -25,7 +25,7 @@ class Orders extends Model
                 return $this->attributes['status_str'];   
                 break;    
             case '2':
-                $this->attributes['status_str'] = "未出貨";
+                $this->attributes['status_str'] = "訂單確認";
                 return  $this->attributes['status_str'];   
                 break; 
             case '3':

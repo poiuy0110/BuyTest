@@ -23,7 +23,8 @@
   <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
   <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('js/ckeditorSet.js') }}"></script>
-  <script src="{{ asset('js/autoComplete.js') }}"></script>
+  <script src="{{ asset('js/autoComplete.js') }}"></script>.
+  @stack('head')
 </head>
 <body>
   @include('backend.layouts.navbar') 

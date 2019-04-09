@@ -138,29 +138,7 @@ class OrdersController extends Controller
 
 
 
-    function getStatusStr($status) 
-    {
-        switch ($status) {
-            case '0':
-                return "未結帳";   
-                break;
-            case '1':
-                return "已結帳";   
-                break;    
-            case '2':
-                return  "未出貨";   
-                break; 
-            case '3':
-                return "已出貨";
-                break; 
-            case '4':
-                return "退貨";
-                break;     
-             
-            
-        }
-    }   
-
+   
 
     public function itemCreate($odr_id)
     {   
@@ -216,6 +194,53 @@ class OrdersController extends Controller
   
         return Excel::download(new ExportCSV($lists, "backend.csv.orders"), 'invoices.xlsx');
     }
+
+
+    public function confirm($id)
+    {   
+        $oOrders = Orders::find($id);
+        $oOrders->status = "2";
+        $oOrders->save();
+
+        return redirect()->route('admin.orders.show', $id);
+    }
+
+    public function confirmCancel($id)
+    {   
+        $oOrders = Orders::find($id);
+        $oOrders->status = "1";
+        $oOrders->save();
+
+        return redirect()->route('admin.orders.show', $id);
+    }
+
+    public function shipConfirm($id)
+    {   
+        $oOrders = Orders::find($id);
+        $oOrders->status = "3";
+        $oOrders->save();
+
+        return redirect()->route('admin.orders.show', $id);
+    }
+
+    public function shipConfirmCancel($id)
+    {   
+        $oOrders = Orders::find($id);
+        $oOrders->status = "2";
+        $oOrders->save();
+
+        return redirect()->route('admin.orders.show', $id);
+    }
+
+
+    function updateShipNo(Request $request){
+
+        $oOrders = Orders::find($request->input("id"));
+        $oOrders->ship_no = $request->input("ship_no");
+        $oOrders->save();
+
+    }
+
     
     
 }

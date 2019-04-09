@@ -35,9 +35,6 @@
                 <a class="nav-item nav-link" href="{{ route('admin.orders.index') }}">訂單管理</a>
             </li>
             <li class="nav-item">
-                <a class="nav-item nav-link" href="{{ route('admin.product.index') }}">商家管理</a>
-            </li>
-            <li class="nav-item">
                 <li><a class="nav-item nav-link" href="{{ route('admin.store.index') }}">賣家管理</a>
             </li>
             <li class="nav-item dropdown">

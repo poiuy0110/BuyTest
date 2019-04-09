@@ -158,6 +158,12 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::get('orders/exportListCSV', 'Backend\OrdersController@exportListCSV')->name('orders.exportListCSV');
     Route::post('orders/itemStore', 'Backend\OrdersController@itemStore')->name('orders.itemStore');
     Route::post('orders/itemUpdate', 'Backend\OrdersController@itemUpdate')->name('orders.itemUpdate');
+    Route::get('orders/confirm/{id}', 'Backend\OrdersController@confirm')->name('orders.confirm');
+    Route::get('orders/confirmCancel/{id}', 'Backend\OrdersController@confirmCancel')->name('orders.confirmCancel');
+    Route::get('orders/shipConfirm/{id}', 'Backend\OrdersController@shipConfirm')->name('orders.shipConfirm');
+    Route::get('orders/shipConfirmCancel/{id}', 'Backend\OrdersController@shipConfirmCancel')->name('orders.shipConfirmCancel');
+
+    Route::post('orders/updateShipNo', 'Backend\OrdersController@updateShipNo')->name('orders.updateShipNo');
     /* Orders   */
     
     
