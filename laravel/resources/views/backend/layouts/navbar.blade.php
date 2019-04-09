@@ -51,7 +51,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <li><a class="nav-item nav-link" href="{{ route('admin.store.index') }}">使用者管理</a>
+                <li><a class="nav-item nav-link" href="{{ route('admin.user.index') }}">使用者管理</a>
             </li>
           </ul>
           <ul class="nav navbar-nav ml-auto" >

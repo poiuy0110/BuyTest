@@ -47,7 +47,7 @@
                     @foreach ($lists as $obj) 
                         <tr>
                             <th class="align-middle" scope="row">{{$loop->iteration}}</th>
-                            <td class="align-middle">{{ $obj->login_id }}</td>
+                            <td class="align-middle">{{ $obj->user_id }}</td>
                             <td class="align-middle">{{ $obj->title }}</td>
                             <td class="align-middle">{{ $obj->email }}</td>
                             <td class="align-middle">
@@ -67,6 +67,7 @@
                                     {{ method_field('DELETE') }}
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('您確定要刪除嗎??');">刪除</button>
                                 </form>
+                                <a href="{{ route('admin.user.chgPass', $obj->id) }}" class="btn btn-warning btn-sm">變更密碼</a>
                             </td>  
                         </tr>
                     @endforeach

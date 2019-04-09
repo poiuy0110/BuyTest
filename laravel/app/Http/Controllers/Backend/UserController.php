@@ -59,7 +59,14 @@ class UserController extends Controller
 
         
 
-        $sql = DB::table('user');
+        $sql = DB::table('users');
+
+        if($request["title"] != ""){
+            $sql->where('title', 'like', '%' .$request["title"] . '%');
+        }
+        if($request["user_id"] != ""){
+            $sql->where('user_id', '=',  $request["user_id"] );
+        }
 
 
 
@@ -67,6 +74,16 @@ class UserController extends Controller
     }
 
 
+    function getSearchArr($request){
+
+
+        $req = array();
+        $req["user_id"] = $request->input("user_id");
+        $req["title"] = $request->input("title");
+
+        return $req;
+
+    }
 
     public function destroy($id)
     {
@@ -81,17 +98,91 @@ class UserController extends Controller
     public function store(Request $request)
     {   
 
-        $data = $request->except(['_method','_token']);
-        user::insert($data);
 
-        return redirect()->route('admin.user.index');
+
+        $rules = [
+            'password'=>'required|between:6,20|confirmed',
+        ];
+        $messages = [
+            'required' => '密碼不能為空',
+            'between' => '密碼必須是6~20位之間',
+            'confirmed' => '新密碼和確認密碼不匹配'
+        ];
+        $data = $request->except(['_method','_token']);
+
+        $validator = Validator::make($data, $rules, $messages);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator); 
+        } else {
+            $data = $request->except(['_method','_token','password_confirmation']);
+            $data['password'] = bcrypt($data['password']);
+
+            user::insert($data);
+
+            return redirect()->route('admin.user.index');
+
+
+        }
+
+
+       
+    }
+
+
+    public function show($id)
+    {   
+        if($id != ""){
+
+            $user = user::find($id);
+            return view('backend.user.show', compact('user'));
+        }       
+    }
+
+
+    public function chgPass($id)
+    {   
+        if($id != ""){
+
+            $user = user::find($id);
+            return view('backend.user.chgPass', compact('user'));
+        }       
     }
 
 
 
+    public function chgPassSave(Request $request)
+    {   
+        $user = User::find($request->input('id'));
 
+        $old_pass = $request->input('old_pass');
+        $password = $request->input('password');
+        $data = $request->except(['_method','_token']);
 
+        $rules = [
+            'old_pass'=>'required|between:6,20',
+            'password'=>'required|between:6,20|confirmed',
+        ];
+        $messages = [
+            'required' => '密碼不能為空',
+            'between' => '密碼必須是6~20位之間',
+            'confirmed' => '新密碼和確認密碼不匹配'
+        ];
+        $validator = Validator::make($data, $rules, $messages);
+        $validator->after(function($validator) use ($old_pass, $user) {
+            if (!\Hash::check($old_pass, $user->password)) {
+                $validator->errors()->add('old_pass', '原密碼錯誤');
+            }
+        });
+        if ($validator->fails()) {
+            return back()->withErrors($validator); 
+        }
 
+        $user->password = bcrypt($password);
+        $user->save();
+
+        return redirect()->route('admin.user.index');
+    }
      
    
 

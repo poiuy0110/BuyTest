@@ -180,9 +180,11 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::resource('params', 'Backend\ParamsController');
      /* Params   */
 
-     /* Params   */
+     /* User   */
     Route::resource('user', 'Backend\UserController');
-    /* Params   */
+    Route::get('user/chgpass/{id}', 'Backend\UserController@chgPass')->name("user.chgPass");
+    Route::post('user/chgPassSave', 'Backend\UserController@chgPassSave')->name("user.chgPassSave");
+    /* User   */
 
 
      /* Product   */
