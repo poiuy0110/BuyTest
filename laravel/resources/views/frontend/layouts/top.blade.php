@@ -13,6 +13,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('index') }}">回首頁</a>
                         </li>   
+                        @if(Auth::guard('frontend')->check())
+                          <li><a class="nav-link" href="{{ route('member.memberShow') }}">會員管理</a></li>
+                        @endif
                         <li class="nav-item">
                           @if(Auth::guard('frontend')->check())
                             <a class="nav-link" href="{{ route('frontend.logout') }}">登出</a>

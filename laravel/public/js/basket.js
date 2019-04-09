@@ -16,6 +16,53 @@ $(function(){
         
     });
 
+    $(".chkQty").on("blur", function(){
+        
+        var id = $(this).data("id");
+        var qty = $("#qty_"+id).val();
+
+        $.ajax({
+            type: 'get',                    
+            url: "/product/chkBasketQty/"+id+"/"+qty,               
+            cache: false,
+            error: function(e)
+            {
+               alert(e.message);
+            },                     
+            success: function(data)
+	        {   
+                if(data == 1){
+
+                alert("該品項目前庫存數不足!");
+                
+                $("#qty_"+id).val(0);
+                var qty = $("#qty_"+id).val();
+                var price = $("#price_"+id).val();
+                var amount = qty*price;
+        
+                $("#amount_"+id).val(amount);
+                $("#amt_show_"+id).html(amount);
+
+                calToTotal();
+
+                } 
+
+                
+		       
+	        }         
+        });
+
+       
+        
+
+
+
+
+    });
+
+
+
+
 
     $("#same_buyer").on("click", function(){
 

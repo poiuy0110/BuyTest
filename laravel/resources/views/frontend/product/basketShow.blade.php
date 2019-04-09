@@ -26,7 +26,7 @@
                     <td  width="100"><img src="{{asset('uploads/product/'. $obj->oProduct->photo)}}" width="100"></td>
                     <td>{{$obj->oProduct->name}}</td>
                     <td>{{$obj->oProduct->price}} <input type="hidden" name="price_{{$obj->id}}" id="price_{{$obj->id}}" value="{{$obj->oProduct->price}}"></td>
-                    <td><input name="qty_{{$obj->id}}" size="5" value="{{$obj->qty}}" id="qty_{{$obj->id}}" class="calAmount" data-id="{{$obj->id}}"></td>
+                    <td><input name="qty_{{$obj->id}}" size="5" value="{{$obj->qty}}" id="qty_{{$obj->id}}" class="calAmount chkQty" data-id="{{$obj->id}}"></td>
                     <td><span id="amt_show_{{$obj->id}}">{{$obj->amount}}</span> <input type="hidden" id="amount_{{$obj->id}}" class="calToTotal" value="{{$obj->amount}}" name="amount_{{$obj->id}}"></td>
                     <td><a href="{{ route('product.deleteBasket', $obj->id) }}"><i class="far fa-trash-alt" style="font-size:1.5em;color:#888888"></i></a></td>
                 </tr>
@@ -67,11 +67,11 @@
                                 </tr>
                                 
                                 <tr>		
-                                    <td colspan="4"><input type="checkbox" id="agree_mem" name="agree_mem" value="1" checked> 我同意加入並成為BuyTest之會員 </td>
+                                    <td colspan="4"><input type="checkbox" id="agree_mem" name="agree_mem" value="1" checked> 我同意加入並成為BuyTest之會員 (電話為會員帳號) </td>
                                 </tr>	
                                  <tr>		
                                     <td width="120"> 密碼：</td><td><input type="password" id="password" name="password" value="" class="chkPass"  style="width:100%"></td>
-                                    <td width="120"> 確認密碼：</td><td><input type="password" id="password2" name="password2" value="" class="chkPass"  style="width:100%"> <span id="show_pass_err"></td>
+                                    <td width="120"> 確認密碼：</td><td><input type="password" id="password2" name="password_confirmation" value="" class="chkPass"  style="width:100%"> <span id="show_pass_err"></td>
                                 </tr>
                                 </table>
                                

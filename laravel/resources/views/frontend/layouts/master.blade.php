@@ -33,7 +33,7 @@
   @include('frontend.layouts.top')
   @include('frontend.layouts.navbar')
   @yield('content')
-  
+  @include('frontend.layouts.footer')
   
 </body>
 </html>

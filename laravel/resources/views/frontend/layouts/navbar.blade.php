@@ -24,6 +24,9 @@
                 <li><a class="nav-link mobile-show" href="{{ route('index') }}">回首頁</a></li>
                 <li><a class="nav-link mobile-show" href="{{ route('product.basketShow') }}">購物車</a></li>
                 @if(Auth::guard('frontend')->check())
+                <li><a class="nav-link mobile-show" href="{{ route('member.memberShow') }}">會員管理</a></li>
+                @endif
+                @if(Auth::guard('frontend')->check())
                 <li><a class="nav-link mobile-show" href="{{ route('frontend.logout') }}">登出</a></li>
                  @else
                  <li><a class="nav-link mobile-show" href="{{ route('member.login') }}">登入</a></li>

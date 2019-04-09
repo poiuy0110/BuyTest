@@ -127,7 +127,11 @@ class MemberController extends Controller
                     $oMember->name = $request->input("name");
                     $oMember->email = $request->input("email");
                     $oMember->mobile = $request->input("mobile");
-                    $oMember->active_token = bcrypt(date("YmdHis"). $request->input("login_id").rand());
+
+                    $active_token = bcrypt(date("YmdHis"). $request->input("login_id").rand());
+                    $active_token_n = str_replace('/', "", $active_token);
+
+                    $oMember->active_token = $active_token_n;
                     $oMember->save();
                     $this->sendConfirmEmail($oMember->id);
 
@@ -173,7 +177,9 @@ class MemberController extends Controller
 
             if($oMember != null){
 
-                $oMember->chgpass_token = bcrypt(date("YmdHis"). $request->input("login_id").rand());
+                $chgpass_token = bcrypt(date("YmdHis"). $request->input("login_id").rand());
+                $chgpass_token_n = str_replace('/', "", $chgpass_token);
+                $oMember->chgpass_token = $chgpass_token_n;
                 $oMember->save();
                 $this->sendPassEmail($oMember->id);
                 return redirect()->back()->with('message', '重設密碼email已經送出!');
@@ -248,7 +254,7 @@ class MemberController extends Controller
 
     function memberSave(Request $request){
 
-        $oMember = new Member($request->input("id"));
+        $oMember = Member::find($request->input("id"));
         $oMember->name = $request->input("name");
         $oMember->email = $request->input("email");
         $oMember->mobile = $request->input("mobile");
@@ -390,15 +396,15 @@ class MemberController extends Controller
 
     function memberChgPassConfirm($url_token){
 
-        //$oMember = Member::where("chgpass_token", "=", $url_token)->first();
+        $oMember = Member::where("chgpass_token", "=", $url_token)->first();
        
 
-        /*if($oMember != null){
+        if($oMember != null){
                 $id = $oMember->id;
                 return redirect()->route('member.forgetPassShow', $id);
         } else {
             return redirect()->route('frontend.forgetPass');
-        }*/
+        }   
 
 
 

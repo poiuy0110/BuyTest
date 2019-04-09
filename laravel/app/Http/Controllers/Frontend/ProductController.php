@@ -11,6 +11,7 @@ use App\Models\Basket;
 use App\Models\Orders;
 use App\Models\OdrItem;
 use App\Models\Params;
+use App\Models\Member;
 use DB;
 use Auth;
 use Redirect;   
@@ -161,7 +162,7 @@ class ProductController extends Controller
             'address' => 'required',
             'email' => 'required',
             'ship_to' => 'required',
-            'ship_mobile' => 'required',
+            'ship_tel' => 'required',
             'ship_city' => 'required',
             'ship_town' => 'required',
             'ship_zipcode' => 'required',
@@ -177,7 +178,7 @@ class ProductController extends Controller
             'address.required' => "請輸入地址!",
             'email.required' => "請輸入Email!",
             'ship_to.required' => "請輸入收件人!",
-            'ship_mobile.required' => "請輸入收件人電話!",
+            'ship_tel.required' => "請輸入收件人電話!",
             'ship_city.required' => "請輸入收件縣市!",
             'ship_town.required' => "請輸入收件鄉鎮市區!",
             'ship_zipcode.required' => "請輸入收件郵遞區號!",
@@ -185,9 +186,79 @@ class ProductController extends Controller
         ];
 
 
+        if($request->input("agree_mem") == "1"){
+            
+            $rules +=  ['password'=>'required|between:6,20|confirmed'];
+            $messages +=  [
+                "password.required" => "請輸入密碼!", 
+                "password.between" => "密碼必須是6~20位之間!", 
+                "password.confirmed" => "新密碼和確認密碼不匹配!"
+            ];
+
+
+        }
+
+
     $validator = Validator::make($request->all(), $rules, $messages);
 
     if ($validator->passes()) {
+
+
+        if($request->input("agree_mem") == "1"){
+
+            $oMember = Member::where("login_id", "=", $request->input("mobile"))->orWhere("email","=",$request->input("email"))->first();
+            
+            if($oMember != null){
+                $validator->errors()->add('exit', '帳號或Email已被註冊!');
+                return Redirect::to('product/basketShow')->withErrors($validator);
+
+            } else {
+
+                $oMember = new Member;
+                $oMember->name = $request->input("name");
+                $oMember->login_id = $request->input("mobile");
+                $oMember->email = $request->input("email");
+                $oMember->mobile = $request->input("mobile");
+                $oMember->zipcode = $request->input("zipcode");
+                $oMember->city = $request->input("city");
+                $oMember->town = $request->input("town");
+                $oMember->address = $request->input("address");
+                $oMember->inv_type = $request->input("inv_type");
+                $oMember->inv_bin = $request->input("inv_bin");
+                $oMember->inv_title = $request->input("inv_title");
+                $oMember->password = bcrypt($password);
+                $oMember->active = "1";
+                $oMember->save();
+
+                
+                $odr_id = $this->createOrders($request);
+
+                foreach($request->input("ids") as $id){
+                    $oBasket = Basket::find($id);
+                    $oOdrItem = new OdrItem;
+                    $oOdrItem->odr_id = $odr_id;
+                    $oOdrItem->prod_id = $oBasket->prod_id;
+                    $oProduct = Product::find($oBasket->prod_id);
+                    $oOdrItem->prod_cat = $oProduct->cat_id;
+                    $oOdrItem->prod_name = $oProduct->name;
+                    $oOdrItem->amount = $request->input("amount_".$id);
+                    $oOdrItem->qty = $request->input("qty_".$id);
+                    $oOdrItem->price = $request->input("price_".$id);
+                    $oOdrItem->save();
+
+                    $oBasket->odr_id = $odr_id;
+                    $oBasket->save();
+                }
+
+
+
+            }
+
+
+
+
+        } else {
+
         $odr_id = $this->createOrders($request);
 
         foreach($request->input("ids") as $id){
@@ -206,6 +277,14 @@ class ProductController extends Controller
             $oBasket->odr_id = $odr_id;
             $oBasket->save();
         }
+
+
+        }   
+
+
+        return Redirect::to('/');
+
+        
 
     } else {
 
@@ -259,6 +338,19 @@ class ProductController extends Controller
         $oOrders->save();
 
         return $oOrders->id;
+
+
+    }
+
+
+    function chkBasketQty($id, $qty){
+
+        $oBasket = Basket::find($id);
+        $oProduct = Product::find($oBasket->prod_id);
+
+        if($oProduct->qty < $qty){
+            echo "1";
+        }
 
 
     }

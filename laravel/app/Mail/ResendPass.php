@@ -35,7 +35,7 @@ class ResendPass extends Mailable
 
         $domain = Request::server('REMOTE_ADDR');
         
-        $member->chgpass_url = "http://".$domain."/member/memberChgPassConfirm/".htmlspecialchars($member->chgpass_token, ENT_COMPAT);
+        $member->chgpass_url = "http://".$domain."/member/memberChgPassConfirm/".htmlentities($member->chgpass_token);
         return $this->view('mail.memberchgpass',compact('member'));
     }
 }

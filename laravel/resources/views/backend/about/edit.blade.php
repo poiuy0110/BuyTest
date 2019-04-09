@@ -45,6 +45,11 @@
                 <td><input type="checkbox" name="vw" value="1" @isset($about){{$about->vw==1?'checked':''}}@endisset></td>
             </tr>
             <tr>
+                <th class="info">預設:</th>
+                <td><input type="checkbox" name="def" value="1" @isset($about){{$about->def==1?'checked':''}}@endisset></td>
+            </tr>
+            
+            <tr>
                 <td colspan="2" class="text-center">
                     <a href="/admin/about" class="btn btn-sm btn-light">取消</a>
                     <input type="submit" value="送出" class="btn btn-sm btn-primary">

@@ -20,7 +20,6 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="{{ route('admin.member.index') }}">會員管理</a>
-                    <a class="dropdown-item" href="{{ route('admin.store.index') }}">電子報訂閱</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -30,16 +29,10 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="{{ route('admin.category.index') }}">類別設定</a>
                     <a class="dropdown-item" href="{{ route('admin.product.index') }}">商品管理</a>
-                    <!--<a class="dropdown-item" href="{{ route('admin.store.index') }}">商品評價管理</a>
-                    <a class="dropdown-item" href="{{ route('admin.store.index') }}">產品資訊</a>
-                    <a class="dropdown-item" href="{{ route('admin.store.index') }}">集點類別</a>-->
                 </div>
             </li>
             <li class="nav-item">
                 <a class="nav-item nav-link" href="{{ route('admin.orders.index') }}">訂單管理</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-item nav-link" href="{{ route('admin.about.index') }}">出貨管理</a>
             </li>
             <li class="nav-item">
                 <a class="nav-item nav-link" href="{{ route('admin.product.index') }}">商家管理</a>
@@ -52,10 +45,7 @@
                     基本設定   
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ route('admin.store.index') }}">電子信範本</a>
-                    <a class="dropdown-item" href="{{ route('admin.store.index') }}">郵遞區號</a>
                     <a class="dropdown-item" href="{{ route('admin.indexslide.index') }}">首頁輪播圖</a>
-                    <a class="dropdown-item" href="{{ route('admin.store.index') }}">發票號碼設定</a>
                     <a class="dropdown-item" href="{{ route('admin.store.index') }}">常見問題</a>
                     <a class="dropdown-item" href="{{ route('admin.params.index') }}">參數設定</a>  
                 </div>

@@ -50,6 +50,7 @@
                         <th>標題</th>
                         <th width="150">發布時間</th>
                         <th width="60">顯示</th>
+                        <th width="60">預設</th>
                         <th width="200">&nbsp;</th>  
                     </tr>
                 </thead>
@@ -66,6 +67,13 @@
                                     <span class='badge badge-danger'>N</span>
                                 @endif
                             </td>
+                            <td class="align-middle">
+                                    @if ($obj->def == 1)
+                                        <span class='badge badge-success'>Y</span>
+                                    @else
+                                        <span class='badge badge-danger'>N</span>
+                                    @endif
+                                </td>
                             <td class="align-middle">
                                 <a href="{{ route('admin.about.edit', $obj->id) }}" class="btn btn-primary btn-sm">修改</a>
                                 <form method="POST" action="{{ route('admin.about.destroy', $obj->id) }}">

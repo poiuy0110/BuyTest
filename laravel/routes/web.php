@@ -14,6 +14,15 @@
 Route::get('/', 'Frontend\IndexController@index')->name('index');
 Route::get('/index', 'Frontend\IndexController@index');
 
+/* News About show  */
+Route::get('/index/newsShow/{id}', 'Frontend\IndexController@newsShow')->name('frontend.newsShow');
+Route::get('/index/aboutShow', 'Frontend\IndexController@aboutShow')->name('frontend.aboutShow');
+Route::get('/index/serviceShow', 'Frontend\IndexController@serviceShow')->name('frontend.serviceShow');
+Route::get('/index/privateShow', 'Frontend\IndexController@privateShow')->name('frontend.privateShow');
+Route::get('/index/qaShow', 'Frontend\IndexController@qaShow')->name('frontend.qaShow');
+Route::get('/index/returnShow', 'Frontend\IndexController@returnShow')->name('frontend.returnShow');
+/* News About show  */
+
 
 /*        Member Login              */
 Route::get('/member/login', 'Frontend\MemberController@login')->name('member.login');
@@ -49,8 +58,7 @@ Route::post('member/confirmEmailResend', 'Frontend\MemberController@confirmEmail
 Route::get('/member/memberChgPassConfirm/{url_token}', 'Frontend\MemberController@memberChgPassConfirm')->name('member.memberChgPassConfirm');
 Route::get('/member/forgetPassShow/{id}', 'Frontend\MemberController@forgetPassShow')->name('member.forgetPassShow');
 Route::post('/member/chgForgotPass', 'Frontend\MemberController@chgForgotPass')->name('member.chgForgotPass');
-
-
+Route::get('/member/sendConfirmEmail', 'Frontend\MemberController@sendConfirmEmail')->name('member.sendConfirmEmail');
 
 
 
@@ -64,6 +72,7 @@ Route::post('/member/chgForgotPass', 'Frontend\MemberController@chgForgotPass')-
 Route::get('/product/prodLists/{cat_id}/{store_id?}', 'Frontend\ProductController@prodLists')->name('product.prodLists');
 Route::get('/product/prodShow/{id}', 'Frontend\ProductController@prodShow')->name('product.prodShow');
 Route::post('/product/addToBasket', 'Frontend\ProductController@addToBasket')->name('product.addToBasket');
+Route::get('/product/chkBasketQty/{id}/{qty}', 'Frontend\ProductController@chkBasketQty')->name('product.chkBasketQty');
 /*    Product    */
 
 /*    Basket    */
@@ -74,21 +83,12 @@ Route::post('/product/checkout', 'Frontend\ProductController@checkout')->name('p
 
 /*    Orders    */
 Route::get('/orders/show/{id}', 'Frontend\OrdersController@show')->name('orders.show');
-
-
 /*    Orders    */
 
 
 
 
-Route::get('/member/sendConfirmEmail', 'Frontend\MemberController@sendConfirmEmail')->name('member.sendConfirmEmail');
 
-
-Route::get('/about', 'Frontend\AboutController@index')->name('about');
-
-Route::get('/products', 'Frontend\ProductController@index')->name('products');
-
-Route::get('/store', 'Frontend\StoreController@index')->name('store');
 
 
 
@@ -109,9 +109,6 @@ Route::get('/store', 'Frontend\StoreController@index')->name('store');
 
 /*      Backend          */
 
-/*Route::get('/admin/register', function (){
-    return view('backend.register');
-});*/
 
 /*   login admin      */
 Route::get('/admin/login', function (){return view('backend.login');});
@@ -119,7 +116,6 @@ Route::post('/admin/login', 'Auth\LoginController@authenticate')->name('login');
 /*   login admin      */
 
 
-//Route::post('/admin/register', 'Auth\RegisterController@register')->name('register');
 
 Route::post('/admin/ckeditorFileUpload', 'Controller@uploadImageContent');
 Route::get('/admin/getProdComplete', 'Backend\AutoCompleteController@getProdComplete');
@@ -133,43 +129,63 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
  
     Route::get('logout', 'Auth\LoginController@customlogout')->name('logout');
  
- 
-    /*// About的增刪改查還有index頁面
-    Route::resource('about', 'Backend\AboutController');*/
-    //Route::resource('about', 'Backend\AboutController');
+    
+    /* About US   */
+
     Route::resource('about', 'Backend\AboutController');
-
-
     Route::resource('news', 'Backend\NewsController');
+
+     /* About US   */
+
+     /* Member   */
 
     Route::resource('member', 'Backend\MemberController');
     Route::get('member/{id}/chgPass', 'Backend\MemberController@chgPass')->name('member.chgPass');
-    
     Route::post('member/chgPassSave', 'Backend\MemberController@chgPassSave')->name('member.chgPassSave');
 
+    /* Member   */
+
+    /* Prod Category   */
     Route::resource('category', 'Backend\CategoryController');
+    /* Prod Category   */
 
+
+    /* Orders   */
     Route::resource('orders', 'Backend\OrdersController')->except(['show']);
-
     Route::get('orders/itemCreate/{odr_id}', 'Backend\OrdersController@itemCreate')->name('orders.itemCreate');
     Route::get('orders/show/{id}', 'Backend\OrdersController@show')->name('orders.show');
     Route::get('orders/printListPDF', 'Backend\OrdersController@printListPDF')->name('orders.printListPDF');
     Route::get('orders/exportListCSV', 'Backend\OrdersController@exportListCSV')->name('orders.exportListCSV');
-    
-    
     Route::post('orders/itemStore', 'Backend\OrdersController@itemStore')->name('orders.itemStore');
     Route::post('orders/itemUpdate', 'Backend\OrdersController@itemUpdate')->name('orders.itemUpdate');
- 
-    // Product的增刪改查還有index頁面
+    /* Orders   */
+    
+    
+  
+    /* Product   */
+    Route::resource('product', 'Backend\ProductController')->except(['show']);
+    Route::get('product/show/{id}', 'Backend\ProductController@show')->name('product.show');
+    Route::get('product/getPrice', 'Backend\ProductController@getPrice');
+    /* Product   */
+    
+    /* Store   */
+    Route::resource('store', 'Backend\StoreController');
+    /* Store   */
+
+    /* IndexSlide   */
+    Route::resource('indexslide', 'Backend\IndexSlideController');
+    /* IndexSlide   */
+
+    /* Params   */
+    Route::resource('params', 'Backend\ParamsController');
+     /* Params   */
+
+
+     /* Product   */
     Route::resource('product', 'Backend\ProductController')->except(['getPrice','show']);
     Route::get('product/show/{id}', 'Backend\ProductController@show')->name('product.show');
     Route::get('product/getPrice', 'Backend\ProductController@getPrice');
- 
-    Route::resource('store', 'Backend\StoreController');
-
-    Route::resource('indexslide', 'Backend\IndexSlideController');
-
-    Route::resource('params', 'Backend\ParamsController');
+    /* Product   */
 
     
 

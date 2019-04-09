@@ -58,6 +58,17 @@ class AboutController extends Controller
         } else {
             $about->vw = 0;
         }
+
+        
+
+        if($request->input("def") == "1"){
+            DB::table('about')
+                ->whereRaw("1=1")
+                ->update(['def' =>"0"]);
+        } 
+
+        $about->def = $request->input("def");
+
         
         $about->save();
 

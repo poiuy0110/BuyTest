@@ -11,17 +11,19 @@
    </div>
    <h3>主題活動</h3>
    <div class="row">
-   
-   
       @foreach ($news_lists as $obj) 
+      
       <div class="col-md-3 col-sm-3 col-xs-12">
+          <a href="{{ route('frontend.newsShow', $obj->id) }}" style="color:rgba(0,0,0,.5)">
         <div class="card">
           @isset($obj->photo)<img class="card-img-top" src="{{asset('uploads/news/'. $obj->photo)}}" >@endisset
           <div class="card-body">
           <p class="card-text">{{$obj->subject}}</p>
           </div>
         </div>
+        </a>
       </div>
+     
       @endforeach
     </div>
    <h3>熱門商品</h3>
